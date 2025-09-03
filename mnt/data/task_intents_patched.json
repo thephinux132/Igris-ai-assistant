@@ -1,0 +1,335 @@
+{
+  "tasks": [
+    {
+      "task": "open calculator",
+      "phrases": [
+        "open calculator",
+        "launch calculator",
+        "calc"
+      ],
+      "action": "calc",
+      "requires_admin": false
+    },
+    {
+      "task": "open notepad",
+      "phrases": [
+        "open notepad",
+        "launch notepad",
+        "text editor"
+      ],
+      "action": "notepad",
+      "requires_admin": false
+    },
+    {
+      "task": "open command prompt",
+      "phrases": [
+        "open command prompt",
+        "cmd",
+        "terminal",
+        "open cmd",
+        "launch cmd",
+        "start command prompt"
+      ],
+      "action": "cmd",
+      "requires_admin": false
+    },
+    {
+      "task": "open powershell",
+      "phrases": [
+        "open powershell",
+        "launch powershell",
+        "powershell terminal",
+        "start powershell"
+      ],
+      "action": "powershell",
+      "requires_admin": false
+    },
+    {
+      "task": "open file explorer",
+      "phrases": [
+        "open file explorer",
+        "launch explorer",
+        "open folders"
+      ],
+      "action": "explorer",
+      "requires_admin": false
+    },
+    {
+      "task": "open settings",
+      "phrases": [
+        "open settings",
+        "launch settings",
+        "windows settings"
+      ],
+      "action": "start ms-settings:",
+      "requires_admin": false
+    },
+    {
+      "task": "lock computer",
+      "phrases": [
+        "lock computer",
+        "lock this pc",
+        "lock screen",
+        "lock pc"
+      ],
+      "action": "rundll32.exe user32.dll,LockWorkStation",
+      "requires_admin": false
+    },
+    {
+      "task": "show gpu usage",
+      "phrases": [
+        "gpu usage",
+        "show gpu",
+        "gpu status"
+      ],
+      "action": "review:gpu",
+      "requires_admin": false
+    },
+    {
+      "task": "show temperature",
+      "phrases": [
+        "system temperature",
+        "check temperature",
+        "cpu temp"
+      ],
+      "action": "review:temperature",
+      "requires_admin": false
+    },
+    {
+      "task": "system uptime",
+      "phrases": [
+        "uptime",
+        "system uptime",
+        "how long has this been on"
+      ],
+      "action": "review:uptime",
+      "requires_admin": false
+    },
+    {
+      "task": "open word",
+      "phrases": [
+        "open word",
+        "open microsoft word",
+        "launch word",
+        "start word"
+      ],
+      "action": "cmd /c start winword",
+      "result": "Opening Microsoft Word..."
+    },
+    {
+      "task": "open excel",
+      "phrases": [
+        "open excel",
+        "open microsoft excel",
+        "launch excel",
+        "start excel"
+      ],
+      "action": "cmd /c start excel",
+      "result": "Opening Microsoft Excel..."
+    },
+    {
+      "task": "open powerpoint",
+      "phrases": [
+        "open powerpoint",
+        "open microsoft powerpoint",
+        "launch powerpoint",
+        "start powerpoint"
+      ],
+      "action": "cmd /c start powerpnt",
+      "result": "Opening Microsoft PowerPoint..."
+    },
+    {
+      "task": "open outlook",
+      "phrases": [
+        "open outlook",
+        "check email",
+        "launch outlook"
+      ],
+      "action": "cmd /c start outlook",
+      "result": "Opening Microsoft Outlook..."
+    },
+    {
+      "task": "open defender settings",
+      "phrases": [
+        "open windows defender",
+        "launch defender",
+        "open virus settings"
+      ],
+      "action": "cmd /c start windowsdefender:",
+      "requires_admin": true,
+      "result": "Opening Windows Defender settings..."
+    },
+    {
+      "task": "open services manager",
+      "phrases": [
+        "open services",
+        "launch services.msc",
+        "manage services"
+      ],
+      "action": "cmd /c start services.msc",
+      "requires_admin": true,
+      "result": "Opening Windows Services Manager..."
+    },
+    {
+      "task": "open group policy editor",
+      "phrases": [
+        "open group policy",
+        "edit group policy",
+        "gpedit"
+      ],
+      "action": "cmd /c start gpedit.msc",
+      "requires_admin": true,
+      "result": "Opening Group Policy Editor..."
+    },
+    {
+      "task": "open disk management",
+      "phrases": [
+        "open disk management",
+        "manage disks",
+        "disk partitions"
+      ],
+      "action": "cmd /c start diskmgmt.msc",
+      "requires_admin": true,
+      "result": "Opening Disk Management..."
+    },
+    {
+      "task": "open task scheduler",
+      "phrases": [
+        "open task scheduler",
+        "manage scheduled tasks",
+        "start task scheduler"
+      ],
+      "action": "cmd /c start taskschd.msc",
+      "requires_admin": true,
+      "result": "Opening Task Scheduler..."
+    },
+    {
+      "task": "open event viewer",
+      "phrases": [
+        "open event viewer",
+        "check system logs",
+        "start event viewer"
+      ],
+      "action": "cmd /c start eventvwr.msc",
+      "requires_admin": true,
+      "result": "Opening Event Viewer..."
+    },
+    {
+      "task": "open device manager",
+      "phrases": [
+        "open device manager",
+        "launch device manager"
+      ],
+      "action": "cmd /c start devmgmt.msc",
+      "requires_admin": true,
+      "result": "Opening Device Manager..."
+    },
+    {
+      "task": "open system configuration",
+      "phrases": [
+        "open system configuration",
+        "launch msconfig",
+        "run system config"
+      ],
+      "action": "cmd /c start msconfig",
+      "requires_admin": true,
+      "result": "Opening System Configuration..."
+    },
+    {
+      "task": "edit environment variables",
+      "phrases": [
+        "edit environment variables",
+        "open environment settings"
+      ],
+      "action": "SystemPropertiesAdvanced.exe",
+      "requires_admin": true,
+      "result": "Opening Environment Variables editor..."
+    },
+    {
+      "task": "run performance monitor",
+      "phrases": [
+        "run performance monitor",
+        "open perfmon",
+        "view system performance"
+      ],
+      "action": "cmd /c start perfmon",
+      "requires_admin": true,
+      "result": "Opening Performance Monitor..."
+    },
+    {
+      "task": "open control panel",
+      "phrases": [
+        "open control panel",
+        "launch control panel"
+      ],
+      "action": "cmd /c start control",
+      "result": "Opening Control Panel..."
+    },
+    {
+      "task": "open task manager",
+      "phrases": [
+        "open task manager",
+        "launch task manager",
+        "start task manager"
+      ],
+      "action": "cmd /c start taskmgr",
+      "result": "Opening Task Manager..."
+    },
+    {
+      "task": "open network connections",
+      "phrases": [
+        "open network connections",
+        "manage network connections"
+      ],
+      "action": "cmd /c start ncpa.cpl",
+      "result": "Opening Network Connections..."
+    },
+    {
+      "task": "restart computer",
+      "phrases": [
+        "restart computer",
+        "reboot pc"
+      ],
+      "action": "cmd /c shutdown /r /t 0",
+      "requires_admin": true,
+      "result": "Restarting computer..."
+    },
+    {
+      "task": "shutdown computer",
+      "phrases": [
+        "shutdown computer",
+        "turn off pc"
+      ],
+      "action": "cmd /c shutdown /s /t 0",
+      "requires_admin": true,
+      "result": "Shutting down computer..."
+    },
+    {
+      "task": "open display settings",
+      "phrases": [
+        "open display settings",
+        "change display settings"
+      ],
+      "action": "cmd /c start ms-settings:display",
+      "result": "Opening Display Settings..."
+    },
+    {
+      "task": "open bluetooth settings",
+      "phrases": [
+        "open bluetooth settings",
+        "manage bluetooth"
+      ],
+      "action": "cmd /c start ms-settings:bluetooth",
+      "result": "Opening Bluetooth Settings..."
+    },
+    {
+      "task": "open windows update",
+      "phrases": [
+        "open windows update",
+        "check for updates"
+      ],
+      "action": "cmd /c start ms-settings:windowsupdate",
+      "result": "Opening Windows Update..."
+    }
+  ]
+}

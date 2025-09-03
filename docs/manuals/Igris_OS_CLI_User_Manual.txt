@@ -1,0 +1,54 @@
+Igris CLI: User Manual
+Welcome to the Igris Command-Line Interface (CLI). This powerful and flexible tool allows you to interact with the Igris system directly from your terminal. It's designed to be resilient, working offline for known tasks and intelligently using an AI model for more complex requests.
+
+1. Basic Usage
+The primary way to use the CLI is to provide a natural language request as an argument. The script will interpret your request and execute the corresponding task.
+
+Syntax: python -m cli.igris_cli [options] "your request here"
+
+Example:
+
+bash
+# Run from the project's root directory
+python -m cli.igris_cli "open notepad"
+The CLI will first try to find a direct, pre-configured match for your request. If it can't, it will query the configured Ollama language model to determine the correct action.
+
+2. Command-Line Arguments
+You can customize the CLI's behavior with the following optional arguments:
+
+--identity <path>
+
+Specifies the path to a custom assistant_identity.json file. This allows you to change the AI's personality, context, and default model on-the-fly.
+Example: python -m cli.igris_cli --identity "c:\configs\hacker_identity.json" "scan the network"
+--model <model_name>
+
+Overrides the default Ollama model for this specific command. This is useful for testing different models without changing your configuration files.
+Example: python -m cli.igris_cli --model "codellama:7b" "write a python script to list files"
+--system <"system prompt">
+
+Provides a one-time system prompt that temporarily overrides the base context from the identity file.
+Example: python -m cli.igris_cli --system "You are a pirate." "what is the system uptime"
+3. How It Works: The Execution Flow
+The Igris CLI is designed for both speed and intelligence. It follows a specific order to process your requests:
+
+Offline Fast-Path (Exact Match): The CLI first checks your task_intents.json file for a command phrase that exactly matches your input. If found, it executes the task instantly without needing to contact the AI model. This is the fastest way to run common commands.
+
+Online AI Model (Smart Path): If no exact local match is found, the CLI sends your request to the configured Ollama language model. The model analyzes your request and returns a structured JSON response with the appropriate action to take.
+
+Offline Fallback (Partial Match): If the Ollama model is unavailable or fails to respond correctly, the CLI makes one final attempt to find a match locally. This time, it looks for a partial match (e.g., if your request "run a scan of the network" contains the phrase "scan of the network").
+
+This layered approach ensures that Igris is responsive for simple tasks, powerful for complex ones, and resilient even when the AI model is offline.
+
+4. Configuration Files
+The CLI automatically searches for its configuration files in several locations, making it easy to run from different directories. It looks for files in this order of priority:
+
+The current working directory (.)
+An ai_assistant_config subdirectory in the current working directory.
+The project's root directory.
+The ai_assistant_config directory in the project's root.
+The key configuration files are:
+
+assistant_identity.json: Defines the AI's personality, role, and default model.
+task_intents_gui_tags.json (or task_intents.json): Contains the list of known tasks, trigger phrases, and actions that the CLI and GUI use.
+5. Security
+For tasks marked as requires_admin: true in task_intents.json, the CLI will initiate a security check. This process is handled by the central igris_core module and requires you to verify your identity via PIN and other configured methods before the sensitive command is executed.

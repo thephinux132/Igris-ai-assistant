@@ -1,0 +1,44 @@
+{
+  "tasks": [
+    {
+      "task": "list tags",
+      "phrases": [
+        "list tags",
+        "show tags",
+        "display categories"
+      ],
+      "action": "plugin:tag-management",
+      "requires_admin": false,
+      "tags": [
+        "system",
+        "navigation"
+      ]
+    },
+    {
+      "task": "open calculator",
+      "phrases": [
+        "open calculator",
+        "launch calculator",
+        "calc"
+      ],
+      "action": "calc",
+      "requires_admin": false,
+      "tags": [
+        "System"
+      ]
+    },
+    {
+      "task": "run phase 4 diagnostic",
+      "phrases": [
+        "phase four diagnostic",
+        "run network intelligence",
+        "start full network scan"
+      ],
+      "action": "plugin:phase4_diagnostic",
+      "requires_admin": false,
+      "tags": [
+        "General"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+[
+    {
+        "name": "encrypt_audit_output",
+        "prompt": "Encrypt the output of run_security_audit.py using Fernet and save it to audit_results.enc. Add secure key generation, storage, and decryption instructions.",
+        "done": true
+    },
+    {
+        "name": "convert_services_scanner",
+        "prompt": "Wrap scan_weak_services.py into a valid Igris plugin with a run() function and proper docstring. Return summary of weak services found.",
+        "done": true
+    },
+    {
+        "name": "create_anomaly_monitor",
+        "prompt": "Create a plugin that scans for unsigned processes, suspicious startup entries, and known malware indicators. Output suspicious findings in a secure log.",
+        "done": true
+    },
+    {
+        "name": "plugin_execution_logger",
+        "prompt": "Write a plugin that logs every plugin execution (name, timestamp) to ai_memory.json for later analysis.",
+        "done": true
+    },
+    {
+        "name": "register_plugins_to_task_intents",
+        "prompt": "Build a plugin that scans the /plugins directory for all .py files, extracts the plugin name and docstring, and appends entries to task_intents.json with default trigger phrases.",
+        "done": true
+    },
+    {
+        "name": "network_scanner",
+        "prompt": "Write a Python script that scans the local network (192.168.x.0/24), lists all active devices with IP, MAC, and hostname if available. Include basic OS fingerprinting using TTL or banner grabbing.",
+        "done": true
+    },
+    {
+        "name": "ssh_tunnel_manager",
+        "prompt": "Build a Python script that creates an SSH tunnel for secure remote administration. Allow the user to specify local port, remote host, and credentials.",
+        "done": true
+    },
+    {
+        "name": "remote_log_tracker",
+        "prompt": "Create a Python script that monitors Windows Event Logs for failed logins, port scan attempts, or unusual connections, and logs them to a file.",
+        "done": true
+    },
+    {
+        "name": "visual_topology_mapper",
+        "prompt": "Create a Python Tkinter or matplotlib GUI that visualizes devices on the local network in a graph layout, with live updates of status or activity.",
+        "done": true
+    },
+    {
+        "name": "encrypted_cloud_host",
+        "prompt": "Write a Python script that starts a local Flask server for encrypted note and file storage, with user authentication and backup option.",
+        "done": true
+    }
+]

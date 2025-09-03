@@ -1,0 +1,20 @@
+{
+  "reviews": {
+    "cpu_memory": "CPU load is at {cpu_load}%.\nMemory usage is {mem_percent}% ({mem_used}GB used of {mem_total}GB).",
+    "disk_usage": "Disk usage: {disk_used}GB used of {disk_total}GB ({disk_percent}%).",
+    "network_stats": "Network: {net_sent}MB sent, {net_recv}MB received.",
+    "uptime": "System uptime: {uptime_days} days, {uptime_hours} hours, {uptime_minutes} minutes.",
+    "process_count": "Running processes: {process_count}.",
+    "top_process": "Top process: {top_proc_name} (PID {top_proc_pid}), CPU: {top_proc_cpu}%, Memory: {top_proc_mem}%.",
+    "temperature": "System temperature: {temp_c}°C.",
+    "battery": "Battery: {battery_percent}% ({battery_status}).",
+    "swap_usage": "Swap usage: {swap_used}GB used of {swap_total}GB ({swap_percent}%).",
+    "user_sessions": "Active user sessions: {user_count}.",
+    "last_boot": "Last boot time: {last_boot_time}.",
+    "gpu_usage": "GPU usage: {gpu_percent}% ({gpu_mem_used}MB used of {gpu_mem_total}MB).",
+    "service_status": "Service '{service_name}': {service_status}.",
+    "failed_logins": "Failed login attempts: {failed_login_count} in the last 24 hours.",
+    "network_latency": "Network latency: {latency_ms} ms average.",
+    "filesystem_errors": "Filesystem errors detected: {fs_error_count}."
+  }
+}

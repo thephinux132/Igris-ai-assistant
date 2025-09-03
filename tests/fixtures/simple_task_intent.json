@@ -1,0 +1,10 @@
+ 
+{
+  "tasks": [
+    {
+      "task": "say-hello",
+      "action": "echo Hello",
+      "requires_admin": false
+    }
+  ]
+}

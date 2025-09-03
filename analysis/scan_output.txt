@@ -1,0 +1,1 @@
+# Nmap 7.95 scan initiated Sun Jul 20 16:19:55 2025 as: nmap -O -sV -p2048 -T4 -n -oN scan_output.txt exit

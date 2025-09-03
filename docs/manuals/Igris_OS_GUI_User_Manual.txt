@@ -1,0 +1,44 @@
+The Igris Control GUI is the main interface for interacting with the Igris OS. It allows you to manage plugins, configure settings, and communicate with the Igris Desktop Environment.
+
+1. Getting Started
+Launching the GUI: Execute igris_control_gui_main_final_fixed_importlib_patch_patched.py using Python.
+Initial Setup: On first launch, the GUI will prompt you for a username. This is used for logging and personalization.
+2. Core Interface Elements
+The GUI is divided into several key areas:
+
+Chat Area: This is the main display area, showing your interactions with the AI, plugin outputs, and system messages.
+Input Field: Located at the bottom, type your commands here and press Enter to send.
+Status Bar: Displays the current status of the system (e.g., "Ready", "Executing...", "Error").
+Error Area: If any errors occur, they will be displayed in the Error area, above the chat window.
+Menu Bar: The Menu Bar provides access to a number of functions, as outlined below.
+Network Dashboard: You can find valuable information about your network here.
+3. Menu Bar Options
+File Menu
+Export Chat...: Saves the current chat log to a text file.
+Import Chat...: Loads a chat log from a text file.
+Exit: Closes the GUI.
+Tools Menu
+Run Plugin...: Opens a window to select and run any plugin located in the plugins directory.
+Run Daily Checkup: Executes a series of diagnostic checks and displays a report.
+Edit Policy File...: Opens a text editor to modify the ai_script_policy.json file.
+Memory Manager: Opens a separate window to view and manage the AI's stored conversation history.
+Options Menu
+Auto-Execute Matched Tasks: When enabled, the GUI will automatically run commands that the AI matches to known tasks.
+Enable Text-to-Speech: Enables spoken feedback for user input, AI responses, and alerts.
+Enforce Admin Auth: This option enables stricter security checks.
+Theme: Select from a variety of UI themes.
+4. Interacting with the System
+Typing Commands: Enter your requests in the input field and press Enter. The GUI will send these requests to the AI for processing.
+Command History: Use the Up and Down arrow keys to cycle through previously entered commands.
+5. Using Plugins
+Running Plugins: Select "Run Plugin..." from the Tools menu to open the Plugin window.
+Selecting a Plugin: Use the Combobox to filter the plugins by group, then double-click a plugin from the list to run it. The plugin's description will show in the description column.
+Plugin Output: The plugin's output will be displayed in the main Chat Area.
+Running Autorun Plugins: To configure plugins to run automatically on start-up, modify ai_script_policy.json and add the plugin names to the autorun_plugins list.
+6. Security
+The system enforces security by requiring authentication for certain tasks.
+When a task requires admin privileges, the GUI will prompt you to authenticate using fingerprint, PIN, or voice recognition.
+7. Network Dashboard
+This tab provides a visual dashboard for network monitoring, including live hosts, open ports, and active connections.
+Use the buttons on the top to perform the appropriate task.
+Parsing of results is rudimentary and depends on output format of the scripts themselves.

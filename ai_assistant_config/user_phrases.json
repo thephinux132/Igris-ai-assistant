@@ -1,0 +1,222 @@
+{
+  "custom_aliases": {
+    "boot time": "system boot stats",
+    "usage": "system usage",
+    "disk": "disk usage",
+    "temp": "system temperature",
+    "ip": "network info"
+  },
+  "questions": [
+    {
+      "prompt": "Hello?",
+      "response": "Hey there! I'm online and ready to help with anything on your system."
+    },
+    {
+      "prompt": "What can you do?",
+      "response": "I can monitor your system, run commands, open apps, and manage files for you."
+    },
+    {
+      "prompt": "How's my system running?",
+      "response": "I'll run a quick system check. Try asking for CPU or memory status."
+    },
+    {
+      "prompt": "What's the weather?",
+      "response": "I can't check the weather directly, but you can ask me to open your browser to a weather site."
+    },
+    {
+      "prompt": "Open my browser",
+      "response": "Opening your default web browser now."
+    },
+    {
+      "prompt": "Shut down the computer",
+      "response": "Are you sure you want to shut down? Please confirm."
+    },
+    {
+      "prompt": "Tell me a joke",
+      "response": "Why did the computer show up at work late? It had a hard drive!"
+    },
+    {
+      "prompt": "Help",
+      "response": "You can ask me about system status, open apps, or manage files. Try 'What can you do?' for more."
+    },
+    {
+      "prompt": "What's my IP address?",
+      "response": "I'll fetch your network information now."
+    },
+    {
+      "prompt": "Check disk space",
+      "response": "Let me check your disk usage."
+    },
+    {
+      "prompt": "What's the CPU temperature?",
+      "response": "I'll look up your system temperature."
+    },
+    {
+      "prompt": "Restart the computer",
+      "response": "Are you sure you want to restart? Please confirm."
+    },
+    {
+      "prompt": "Lock the computer",
+      "response": "Locking your computer now."
+    },
+    {
+      "prompt": "Open calculator",
+      "response": "Opening the calculator app."
+    },
+    {
+      "prompt": "List running processes",
+      "response": "Here are the currently running processes."
+    },
+    {
+      "prompt": "Tell me a fun fact",
+      "response": "Did you know? The first computer mouse was made of wood!"
+    },
+    {
+      "prompt": "Goodbye",
+      "response": "Goodbye! Let me know if you need anything else."
+    },
+    {
+      "prompt": "What time is it?",
+      "response": "I'll check your system clock for the current time."
+    },
+    {
+      "prompt": "What's today's date?",
+      "response": "I'll get today's date from your system."
+    },
+    {
+      "prompt": "How much RAM do I have?",
+      "response": "I'll check your system memory details."
+    },
+    {
+      "prompt": "What's my CPU?",
+      "response": "I'll fetch your processor information."
+    },
+    {
+      "prompt": "Open notepad",
+      "response": "Opening Notepad for you."
+    },
+    {
+      "prompt": "Take a screenshot",
+      "response": "Capturing a screenshot now."
+    },
+    {
+      "prompt": "Mute the volume",
+      "response": "Muting your system volume."
+    },
+    {
+      "prompt": "Unmute the volume",
+      "response": "Unmuting your system volume."
+    },
+    {
+      "prompt": "Increase volume",
+      "response": "Turning up your system volume."
+    },
+    {
+      "prompt": "Decrease volume",
+      "response": "Turning down your system volume."
+    },
+    {
+      "prompt": "Write a file",
+      "response": "Sure! Please tell me the file name and what you want to write."
+    },
+    {
+      "prompt": "Save this text to a file",
+      "response": "Let me know the file name and the content you'd like to save."
+    },
+    {
+      "prompt": "Create a new text file",
+      "response": "What would you like to name the file and what should it contain?"
+    },
+    {
+      "prompt": "Show me my recent files",
+      "response": "I'll list your most recently modified files."
+    },
+    {
+      "prompt": "Empty the recycle bin",
+      "response": "Are you sure you want to empty the recycle bin? Please confirm."
+    },
+    {
+      "prompt": "Open task manager",
+      "response": "Opening Task Manager for you."
+    },
+    {
+      "prompt": "What's my battery level?",
+      "response": "I'll check your current battery status."
+    },
+    {
+      "prompt": "Change my wallpaper",
+      "response": "Please provide the image or location you'd like to set as your wallpaper."
+    },
+    {
+      "prompt": "Tell me another joke",
+      "response": "Why do programmers prefer dark mode? Because light attracts bugs!"
+    },
+    {
+      "prompt": "Pause music",
+      "response": "Pausing your music playback."
+    },
+    {
+      "prompt": "Resume music",
+      "response": "Resuming your music playback."
+    },
+    {
+      "prompt": "What's my hostname?",
+      "response": "I'll fetch your computer's hostname."
+    }
+  ],
+  "categories": {
+    "system": [
+      "How's my system running?",
+      "usage",
+      "boot time"
+    ],
+    "fun": [
+      "Tell me a joke"
+    ],
+    "apps": [
+      "Open my browser"
+    ]
+  },
+  "learned": [
+    "How much do you know about my system?",
+    "System info",
+    "cmd",
+    "powershell",
+    "Where are my .py files?",
+    "How much do you know abut my system?",
+    "How's my computer running?",
+    "status",
+    "network",
+    "What can you do?",
+    "excel",
+    "list",
+    "list running processes",
+    "review",
+    "open cmd",
+    "command prompt",
+    "open  excel",
+    "open event log",
+    "what is the time?",
+    "what's 2+2=?",
+    "Hello?",
+    "What information do you know about my computer?",
+    "Write a simple python script.",
+    "Give me a simple addition word problem",
+    "netstat",
+    "battery",
+    "list all .py files",
+    "What's my system stats?",
+    "Who are you?",
+    "open brave",
+    "tasklist",
+    "list .py files",
+    "List all my .py files.",
+    "Tell me the reasons why you can't.",
+    "What is the conditions of my computer?",
+    "Are you aware of Data from \"Star Trek. The Next Generation\"?",
+    "Are you aware of \"Data\" from \"Star Trek. The Next Generation\"?",
+    "provide information about him.",
+    "Provide information about \"Data\" from \"Star Trek. The Next Generation\"?",
+    "Open browser"
+  ]
+}

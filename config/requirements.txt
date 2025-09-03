@@ -1,0 +1,19 @@
+# Igris Project Requirements
+
+# Core & AI Interaction
+requests
+Pillow
+numpy
+
+# System & Hardware Interaction
+psutil
+mss
+pyttsx3
+SpeechRecognition
+pynput
+
+# Plugins & Features
+matplotlib
+cryptography
+docker
+paramiko

@@ -1,0 +1,32 @@
+# Python build artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+build/
+dist/
+*.egg-info/
+
+# Virtual Environments
+venv/
+.venv/
+env/
+.env
+
+# IDE and editor configuration
+.vscode/
+.idea/
+
+# Log files and databases
+*.log
+*.db
+*.sqlite3
+
+# Igris-specific sensitive files
+# WARNING: These files may contain sensitive information like PIN hashes.
+# Do not commit them to a public repository unless you are sure.
+ai_script_policy.json
+ai_memory.json
+ai_script_log.txt
+ai_script_history/
+desktop_command_queue.json

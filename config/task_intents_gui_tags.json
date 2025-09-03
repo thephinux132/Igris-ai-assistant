@@ -1,0 +1,834 @@
+{
+  "tasks": [
+    {
+      "task": "run phase 4 diagnostic",
+      "phrases": [
+        "phase four diagnostic",
+        "run network intelligence",
+        "start full network scan"
+      ],
+      "action": "plugin:phase4_diagnostic",
+      "requires_admin": false,
+      "tags": [
+        "General"
+      ]
+    },
+    {
+  "task": "diagnose network stack",
+  "phrases": ["diagnose network", "network test", "run network diagnostic"],
+  "action": "python plugins/diagnose_network_stack.py",
+  "requires_admin": false,
+  "tags": ["Network", "Tools", "Diagnostics"]
+    },
+    {
+  "task": "list tags",
+  "phrases": ["list tags", "show tags", "display categories"],
+  "action": "plugin:tag-management",
+  "requires_admin": false,
+  "tags": ["system", "navigation"]
+    },
+    {
+      "task": "open calculator",
+      "phrases": [
+        "open calculator",
+        "launch calculator",
+        "calc"
+      ],
+      "action": "calc",
+      "requires_admin": false,
+      "tags": [
+        "System"
+      ]
+    },
+    {
+      "task": "open notepad",
+      "phrases": [
+        "open notepad",
+        "launch notepad",
+        "text editor"
+      ],
+      "action": "notepad",
+      "requires_admin": false,
+      "tags": [
+        "System"
+      ]
+    },
+    {
+      "task": "open command prompt",
+      "phrases": [
+        "open command prompt",
+        "cmd",
+        "terminal",
+        "open cmd",
+        "launch cmd",
+        "start command prompt"
+      ],
+      "action": "cmd",
+      "requires_admin": false,
+      "tags": [
+        "System"
+      ]
+    },
+    {
+      "task": "open powershell",
+      "phrases": [
+        "open powershell",
+        "launch powershell",
+        "powershell terminal",
+        "start powershell"
+      ],
+      "action": "powershell",
+      "requires_admin": false,
+      "tags": [
+        "System"
+      ]
+    },
+    {
+      "task": "open file explorer",
+      "phrases": [
+        "open file explorer",
+        "launch explorer",
+        "open folders"
+      ],
+      "action": "explorer",
+      "requires_admin": false,
+      "tags": [
+        "System"
+      ]
+    },
+    {
+      "task": "open settings",
+      "phrases": [
+        "open settings",
+        "launch settings",
+        "windows settings"
+      ],
+      "action": "start ms-settings:",
+      "requires_admin": false,
+      "tags": [
+        "System"
+      ]
+    },
+    {
+      "task": "lock computer",
+      "phrases": [
+        "lock computer",
+        "lock this pc",
+        "lock screen",
+        "lock pc"
+      ],
+      "action": "rundll32.exe user32.dll,LockWorkStation",
+      "requires_admin": false,
+      "tags": [
+        "General"
+      ]
+    },
+    {
+      "task": "show gpu usage",
+      "phrases": [
+        "gpu usage",
+        "show gpu",
+        "gpu status"
+      ],
+      "action": "review:gpu",
+      "requires_admin": false,
+      "tags": [
+        "General"
+      ]
+    },
+    {
+      "task": "show temperature",
+      "phrases": [
+        "system temperature",
+        "check temperature",
+        "cpu temp"
+      ],
+      "action": "review:temperature",
+      "requires_admin": false,
+      "tags": [
+        "General"
+      ]
+    },
+    {
+      "task": "system uptime",
+      "phrases": [
+        "uptime",
+        "system uptime",
+        "how long has this been on"
+      ],
+      "action": "review:uptime",
+      "requires_admin": false,
+      "tags": [
+        "General"
+      ]
+    },
+    {
+      "task": "open word",
+      "phrases": [
+        "open word",
+        "open microsoft word",
+        "launch word",
+        "start word"
+      ],
+      "action": "cmd /c start winword",
+      "result": "Opening Microsoft Word...",
+      "tags": [
+        "System"
+      ]
+    },
+    {
+      "task": "open excel",
+      "phrases": [
+        "open excel",
+        "open microsoft excel",
+        "launch excel",
+        "start excel"
+      ],
+      "action": "cmd /c start excel",
+      "result": "Opening Microsoft Excel...",
+      "tags": [
+        "System"
+      ]
+    },
+    {
+      "task": "open powerpoint",
+      "phrases": [
+        "open powerpoint",
+        "open microsoft powerpoint",
+        "launch powerpoint",
+        "start powerpoint"
+      ],
+      "action": "cmd /c start powerpnt",
+      "result": "Opening Microsoft PowerPoint...",
+      "tags": [
+        "System"
+      ]
+    },
+    {
+      "task": "open outlook",
+      "phrases": [
+        "open outlook",
+        "check email",
+        "launch outlook"
+      ],
+      "action": "cmd /c start outlook",
+      "result": "Opening Microsoft Outlook...",
+      "tags": [
+        "System"
+      ]
+    },
+    {
+      "task": "open defender settings",
+      "phrases": [
+        "open windows defender",
+        "launch defender",
+        "open virus settings"
+      ],
+      "action": "cmd /c start windowsdefender:",
+      "requires_admin": true,
+      "result": "Opening Windows Defender settings...",
+      "tags": [
+        "System"
+      ]
+    },
+    {
+      "task": "open services manager",
+      "phrases": [
+        "open services",
+        "launch services.msc",
+        "manage services"
+      ],
+      "action": "cmd /c start services.msc",
+      "requires_admin": true,
+      "result": "Opening Windows Services Manager...",
+      "tags": [
+        "System",
+        "Tools"
+      ]
+    },
+    {
+      "task": "open group policy editor",
+      "phrases": [
+        "open group policy",
+        "edit group policy",
+        "gpedit"
+      ],
+      "action": "cmd /c start gpedit.msc",
+      "requires_admin": true,
+      "result": "Opening Group Policy Editor...",
+      "tags": [
+        "System"
+      ]
+    },
+    {
+      "task": "open disk management",
+      "phrases": [
+        "open disk management",
+        "manage disks",
+        "disk partitions"
+      ],
+      "action": "cmd /c start diskmgmt.msc",
+      "requires_admin": true,
+      "result": "Opening Disk Management...",
+      "tags": [
+        "System",
+        "Tools"
+      ]
+    },
+    {
+      "task": "open task scheduler",
+      "phrases": [
+        "open task scheduler",
+        "manage scheduled tasks",
+        "start task scheduler"
+      ],
+      "action": "cmd /c start taskschd.msc",
+      "requires_admin": true,
+      "result": "Opening Task Scheduler...",
+      "tags": [
+        "System"
+      ]
+    },
+    {
+      "task": "open event viewer",
+      "phrases": [
+        "open event viewer",
+        "check system logs",
+        "start event viewer"
+      ],
+      "action": "cmd /c start eventvwr.msc",
+      "requires_admin": true,
+      "result": "Opening Event Viewer...",
+      "tags": [
+        "System"
+      ]
+    },
+    {
+      "task": "open device manager",
+      "phrases": [
+        "open device manager",
+        "launch device manager"
+      ],
+      "action": "cmd /c start devmgmt.msc",
+      "requires_admin": true,
+      "result": "Opening Device Manager...",
+      "tags": [
+        "System",
+        "Tools"
+      ]
+    },
+    {
+      "task": "open system configuration",
+      "phrases": [
+        "open system configuration",
+        "launch msconfig",
+        "run system config"
+      ],
+      "action": "cmd /c start msconfig",
+      "requires_admin": true,
+      "result": "Opening System Configuration...",
+      "tags": [
+        "System"
+      ]
+    },
+    {
+      "task": "edit environment variables",
+      "phrases": [
+        "edit environment variables",
+        "open environment settings"
+      ],
+      "action": "SystemPropertiesAdvanced.exe",
+      "requires_admin": true,
+      "result": "Opening Environment Variables editor...",
+      "tags": [
+        "General"
+      ]
+    },
+    {
+      "task": "run performance monitor",
+      "phrases": [
+        "run performance monitor",
+        "open perfmon",
+        "view system performance"
+      ],
+      "action": "cmd /c start perfmon",
+      "requires_admin": true,
+      "result": "Opening Performance Monitor...",
+      "tags": [
+        "General"
+      ]
+    },
+    {
+      "task": "open control panel",
+      "phrases": [
+        "open control panel",
+        "launch control panel"
+      ],
+      "action": "cmd /c start control",
+      "result": "Opening Control Panel...",
+      "tags": [
+        "System"
+      ]
+    },
+    {
+      "task": "open task manager",
+      "phrases": [
+        "open task manager",
+        "launch task manager",
+        "start task manager"
+      ],
+      "action": "cmd /c start taskmgr",
+      "result": "Opening Task Manager...",
+      "tags": [
+        "System",
+        "Tools"
+      ]
+    },
+    {
+      "task": "open network connections",
+      "phrases": [
+        "open network connections",
+        "manage network connections"
+      ],
+      "action": "cmd /c start ncpa.cpl",
+      "result": "Opening Network Connections...",
+      "tags": [
+        "System",
+        "Network"
+      ]
+    },
+    {
+      "task": "restart computer",
+      "phrases": [
+        "restart computer",
+        "reboot pc"
+      ],
+      "action": "cmd /c shutdown /r /t 0",
+      "requires_admin": true,
+      "result": "Restarting computer...",
+      "tags": [
+        "General"
+      ]
+    },
+    {
+      "task": "shutdown computer",
+      "phrases": [
+        "shutdown computer",
+        "turn off pc"
+      ],
+      "action": "cmd /c shutdown /s /t 0",
+      "requires_admin": true,
+      "result": "Shutting down computer...",
+      "tags": [
+        "General"
+      ]
+    },
+    {
+      "task": "open display settings",
+      "phrases": [
+        "open display settings",
+        "change display settings"
+      ],
+      "action": "cmd /c start ms-settings:display",
+      "result": "Opening Display Settings...",
+      "tags": [
+        "System"
+      ]
+    },
+    {
+      "task": "open bluetooth settings",
+      "phrases": [
+        "open bluetooth settings",
+        "manage bluetooth"
+      ],
+      "action": "cmd /c start ms-settings:bluetooth",
+      "result": "Opening Bluetooth Settings...",
+      "tags": [
+        "System"
+      ]
+    },
+    {
+      "task": "open windows update",
+      "phrases": [
+        "open windows update",
+        "check for updates"
+      ],
+      "action": "cmd /c start ms-settings:windowsupdate",
+      "result": "Opening Windows Update...",
+      "tags": [
+        "System"
+      ]
+    },
+    {
+      "task": "add calendar widget",
+      "phrases": [
+        "run add_calendar_widget",
+        "launch add_calendar_widget"
+      ],
+      "action": "plugin:add_calendar_widget",
+      "requires_admin": false,
+      "result": "Auto-generated Igris Plugin for Add Calendar Widget",
+      "tags": [
+        "UI/UX"
+      ]
+    },
+    {
+      "task": "automation scheduler setup",
+      "phrases": [
+        "run automation_scheduler_setup",
+        "launch automation_scheduler_setup"
+      ],
+      "action": "plugin:automation_scheduler_setup",
+      "requires_admin": false,
+      "result": "automation_scheduler_setup.py\n\nA GUI utility to list, add, and delete scheduled tasks using Windows Task Scheduler.",
+      "tags": [
+        "General"
+      ]
+    },
+    {
+      "task": "build login screen",
+      "phrases": [
+        "run build_login_screen",
+        "launch build_login_screen"
+      ],
+      "action": "plugin:build_login_screen",
+      "requires_admin": false,
+      "result": "Auto-generated Igris Plugin for Build Login Screen",
+      "tags": [
+        "Tools"
+      ]
+    },
+    {
+      "task": "convert services scanner",
+      "phrases": [
+        "run convert_services_scanner",
+        "launch convert_services_scanner"
+      ],
+      "action": "plugin:convert_services_scanner",
+      "requires_admin": false,
+      "result": "Scans mock Windows services and returns weak ones.",
+      "tags": [
+        "Network"
+      ]
+    },
+    {
+      "task": "create anomaly monitor",
+      "phrases": [
+        "run create_anomaly_monitor",
+        "launch create_anomaly_monitor"
+      ],
+      "action": "plugin:create_anomaly_monitor",
+      "requires_admin": false,
+      "result": "Scans for simulated anomalies in running processes.",
+      "tags": [
+        "Tools"
+      ]
+    },
+    {
+      "task": "disable remote desktop",
+      "phrases": [
+        "run disable_remote_desktop",
+        "launch disable_remote_desktop"
+      ],
+      "action": "plugin:disable_remote_desktop",
+      "requires_admin": false,
+      "result": "Auto-generated Igris Plugin for Disable Remote Desktop",
+      "tags": [
+        "General"
+      ]
+    },
+    {
+      "task": "enable hardening mode",
+      "phrases": [
+        "run enable_hardening_mode",
+        "launch enable_hardening_mode"
+      ],
+      "action": "plugin:enable_hardening_mode",
+      "requires_admin": false,
+      "result": "Auto-generated Igris Plugin for Enable Hardening Mode",
+      "tags": [
+        "Security"
+      ]
+    },
+    {
+      "task": "enable voice command mode",
+      "phrases": [
+        "run enable_voice_command_mode",
+        "launch enable_voice_command_mode"
+      ],
+      "action": "plugin:enable_voice_command_mode",
+      "requires_admin": false,
+      "result": "Auto-generated Igris Plugin for Enable Voice Command Mode",
+      "tags": [
+        "Voice"
+      ]
+    },
+    {
+      "task": "enable windows firewall",
+      "phrases": [
+        "run enable_windows_firewall",
+        "launch enable_windows_firewall"
+      ],
+      "action": "plugin:enable_windows_firewall",
+      "requires_admin": false,
+      "result": "Auto-generated Igris Plugin for Enable Windows Firewall",
+      "tags": [
+        "Security"
+      ]
+    },
+    {
+      "task": "encrypt audit output",
+      "phrases": [
+        "run encrypt_audit_output",
+        "launch encrypt_audit_output"
+      ],
+      "action": "plugin:encrypt_audit_output",
+      "requires_admin": false,
+      "result": "Encrypts the output of the security audit using Fernet encryption and writes to a file.",
+      "tags": [
+        "Security"
+      ]
+    },
+    {
+      "task": "finalize phase1 patch",
+      "phrases": [
+        "run finalize_phase1_patch",
+        "launch finalize_phase1_patch"
+      ],
+      "action": "plugin:finalize_phase1_patch",
+      "requires_admin": false,
+      "result": "Phase 1 Finalizer Plugin for Igris OS\n- Restores Tools \u2192 Run Plugin menu\n- Reloads patched task_intents.json into ai_assistant_config\n- Displays a confirmation dialog",
+      "tags": [
+        "Maintenance"
+      ]
+    },
+    {
+      "task": "finalize phase1 patch relative",
+      "phrases": [
+        "run finalize_phase1_patch_relative",
+        "launch finalize_phase1_patch_relative"
+      ],
+      "action": "plugin:finalize_phase1_patch_relative",
+      "requires_admin": false,
+      "result": "Phase 1 Finalizer Plugin for Igris OS (Relative Path Version)\nWorks from ./mnt/data/task_intents_patched.json instead of /mnt/data",
+      "tags": [
+        "Maintenance"
+      ]
+    },
+    {
+      "task": "manage user preferences",
+      "phrases": [
+        "run manage_user_preferences",
+        "launch manage_user_preferences"
+      ],
+      "action": "plugin:manage_user_preferences",
+      "requires_admin": false,
+      "result": "Auto-generated Igris Plugin for Manage User Preferences",
+      "tags": [
+        "UI/UX",
+        "Tools"
+      ]
+    },
+    {
+      "task": "my nmap",
+      "phrases": [
+        "run my_nmap",
+        "launch my_nmap"
+      ],
+      "action": "plugin:my_nmap",
+      "requires_admin": false,
+      "result": "No description",
+      "tags": [
+        "General"
+      ]
+    },
+    {
+      "task": "network scanner",
+      "phrases": [
+        "run network_scanner",
+        "launch network_scanner"
+      ],
+      "action": "plugin:network_scanner",
+      "requires_admin": false,
+      "result": "Network Scanner\n---------------\nPerforms a basic nmap scan against a target IP address.\nPrompts for the target IP and saves the output to a file.",
+      "tags": [
+        "Network"
+      ]
+    },
+    {
+      "task": "patch tools menu",
+      "phrases": [
+        "run patch_tools_menu",
+        "launch patch_tools_menu"
+      ],
+      "action": "plugin:patch_tools_menu",
+      "requires_admin": false,
+      "result": "Patch the Igris System Control GUI to ensure the Tools menu is visible and working.\nAdds a \"Run Plugin...\" option to launch any plugin inside the /plugins directory.",
+      "tags": [
+        "Maintenance"
+      ]
+    },
+    {
+      "task": "phase1 finalizer",
+      "phrases": [
+        "run phase1_finalizer",
+        "launch phase1_finalizer"
+      ],
+      "action": "plugin:phase1_finalizer",
+      "requires_admin": false,
+      "result": "Phase 1 Finalizer Plugin for Igris OS (Direct Plugin Execution)\nRestores Tools menu, patches task_intents.json, and confirms visually.",
+      "tags": [
+        "Maintenance"
+      ]
+    },
+    {
+      "task": "plugin execution logger",
+      "phrases": [
+        "run plugin_execution_logger",
+        "launch plugin_execution_logger"
+      ],
+      "action": "plugin:plugin_execution_logger",
+      "requires_admin": false,
+      "result": "Logs each plugin execution with timestamp into ai_memory.json.",
+      "tags": [
+        "General"
+      ]
+    },
+    {
+      "task": "register plugins to task intents",
+      "phrases": [
+        "run register_plugins_to_task_intents",
+        "launch register_plugins_to_task_intents"
+      ],
+      "action": "plugin:register_plugins_to_task_intents",
+      "requires_admin": false,
+      "result": "Scans /plugins and registers all plugin names + docstrings into task_intents.json.",
+      "tags": [
+        "General"
+      ]
+    },
+    {
+      "task": "reload task intents",
+      "phrases": [
+        "run reload_task_intents",
+        "launch reload_task_intents"
+      ],
+      "action": "plugin:reload_task_intents",
+      "requires_admin": false,
+      "result": "Plugin to hot-replace task_intents.json with the patched version and reload it into Igris memory.",
+      "tags": [
+        "General"
+      ]
+    },
+    {
+      "task": "reload task patch plugin",
+      "phrases": [
+        "run reload_task_patch_plugin",
+        "launch reload_task_patch_plugin"
+      ],
+      "action": "plugin:reload_task_patch_plugin",
+      "requires_admin": false,
+      "result": "Reload Task Intents Plugin\nOverwrites the current task_intents.json with a patched version and hot-reloads config using load_configs().",
+      "tags": [
+        "Maintenance"
+      ]
+    },
+    {
+      "task": "run security audit",
+      "phrases": [
+        "run run_security_audit",
+        "launch run_security_audit"
+      ],
+      "action": "plugin:run_security_audit",
+      "requires_admin": false,
+      "result": "Auto-generated Igris Plugin for Run Security Audit",
+      "tags": [
+        "Security"
+      ]
+    },
+    {
+      "task": "slash reload tasks",
+      "phrases": [
+        "run slash_reload_tasks",
+        "launch slash_reload_tasks"
+      ],
+      "action": "plugin:slash_reload_tasks",
+      "requires_admin": false,
+      "result": "Registers /reload_tasks to hot-patch task_intents.json and reload the configuration into Igris.",
+      "tags": [
+        "General"
+      ]
+    },
+    {
+      "task": "visual task scheduler",
+      "phrases": [
+        "run visual_task_scheduler",
+        "launch visual_task_scheduler"
+      ],
+      "action": "plugin:visual_task_scheduler",
+      "requires_admin": false,
+      "result": "No description",
+      "tags": [
+        "General"
+      ]
+    },
+    {
+      "task": "ping sweep",
+      "phrases": [
+        "run ping sweep",
+        "start ping sweep",
+        "scan subnet",
+        "discover live hosts"
+      ],
+      "action": "plugin:ping_sweep",
+      "requires_admin": false,
+      "result": "Auto-generated plugin for ping_sweep",
+      "tags": [
+        "Network"
+      ]
+    },
+    {
+      "task": "who is connected",
+      "phrases": [
+        "run who is connected",
+        "show active connections",
+        "list net connections",
+        "network activity"
+      ],
+      "action": "plugin:who_is_connected",
+      "requires_admin": false,
+      "result": "Auto-generated plugin for who_is_connected",
+      "tags": [
+        "General"
+      ]
+    },
+    {
+      "task": "port scanner",
+      "phrases": [
+        "run port scanner",
+        "scan open ports",
+        "start port scan"
+      ],
+      "action": "plugin:port_scanner",
+      "requires_admin": false,
+      "result": "Auto-generated plugin for port_scanner",
+      "tags": [
+        "Network"
+      ]
+    },
+    {
+      "task": "phase 4 launcher",
+      "phrases": [
+        "open phase 4 toolkit",
+        "launch phase4 dashboard",
+        "run phase 4 launcher"
+      ],
+      "action": "plugin:phase4_launcher",
+      "requires_admin": false,
+      "result": "Auto-generated plugin for phase4_launcher",
+      "tags": [
+        "System"
+      ]
+    }
+  ]
+}

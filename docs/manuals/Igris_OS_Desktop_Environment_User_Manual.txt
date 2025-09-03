@@ -1,0 +1,62 @@
+Igris OS Desktop Environment: User Manual
+Welcome to the Igris Desktop Environment, a fully voice-activated, modular workspace designed for efficiency. This guide will walk you through its core features and how to use them.
+
+1. Launching and Exiting
+To Start: From the main Igris Control GUI, simply say launch desktop mode. The desktop will open in a fullscreen window.
+To Exit: Press the Escape key on your keyboard. This will close all open desktop applications and return you to the main control GUI.
+2. The Desktop Interface
+The desktop is composed of three main areas:
+
+The Desktop: A clean space where your application windows and widgets live. A central "Igris Desktop Shell" label will display temporary messages and confirmations.
+The Taskbar: Located at the bottom of the screen, it displays a live clock on the right and buttons for all your running applications on the left. The currently focused application will be highlighted.
+Widgets: Small, dynamic information panels that provide live system data.
+3. Voice Commands
+All desktop actions are controlled by voice from the main Igris Control GUI.
+
+Managing Applications
+Launch a Containerized App:
+
+Command: desktop launch app image_name=<DOCKER_IMAGE>
+Example: desktop launch app image_name=hello-world
+This will open a new window and display the output of the specified Docker container.
+Launch an Interactive Terminal:
+
+Command: open interactive terminal
+This launches a new window with a fully interactive ubuntu shell, perfect for running commands inside a container.
+Launch the Native File Browser:
+
+Command: open the file browser
+This opens the built-in file browser application. You can navigate your home directory by double-clicking folders.
+Managing Windows
+List Open Windows:
+
+Command: list open windows
+The names of all open application windows will be displayed on the desktop.
+Switch Between Windows:
+
+Command: switch to window app_name=<APP_NAME>
+Example: switch to window app_name=file_browser
+This brings the specified window to the front and gives it focus.
+Tile Windows:
+
+Command: tile windows
+This automatically arranges all open windows in a grid layout to fill the screen.
+Close the Active Window:
+
+Command: close the desktop window
+This will close the currently focused application window.
+Managing Widgets
+Add a Widget:
+
+Command: show system stats widget
+Command: show network stats widget
+These commands will place the respective widgets on your desktop.
+List Active Widgets:
+
+Command: list desktop widgets
+The names of all active widgets will be displayed on the desktop.
+Remove a Widget:
+
+Command: remove desktop widget name=<WIDGET_NAME>
+Example: remove desktop widget name=system_stats
+This removes the specified widget from the desktop.

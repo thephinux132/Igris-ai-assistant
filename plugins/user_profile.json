@@ -1,0 +1,31 @@
+{
+  "name": "Aaron",
+  "voice_enabled": true,
+  "preferred_browser": "Edge",
+  "preferred_editor": "Notepad++",
+  "default_tasks": [
+    "run_security_audit",
+    "visual_topology_mapper"
+  ],
+  "admin_auth": {
+    "method": "fingerprint",
+    "fallback": "PIN"
+  },
+  "daily_routines": {
+    "08:00": "run_security_audit",
+    "20:00": "check_task_summary"
+  },
+  "theme": "dark",
+  "privacy_mode": true,
+  "blocked_plugins": [],
+  "favorites": [
+    "remote_log_tracker",
+    "who_is_connected"
+  ],
+  "plugin_history": {
+    "test_plugin": {
+      "count": 1,
+      "last_used": "2025-08-05T23:51:07.111312"
+    }
+  }
+}
