@@ -27,8 +27,20 @@ sys.path.insert(0, str(base_dir))
 import igris_core
 from igris_core import load_policy, respond_with_review, ask_ollama as _ask, run_cmd, match_intent, authenticate_admin
 
+def get_user_name() -> str:
+    profile_override = base_dir / "plugins" / "user_profile.local.json"
+    if profile_override.exists():
+        try:
+            with profile_override.open(encoding="utf-8") as f:
+                return json.load(f).get("name", "User")
+        except Exception:
+            pass
+    return os.getenv("IGRIS_USER_NAME", "User")
+
+USER_NAME = get_user_name()
+
 DEFAULT_IDENTITY = {
-    "intro_message": "Welcome back, Aaron. I'm Igris – your personal Windows control assistant. Ready to assist.",
+    "intro_message": f"Welcome back, {USER_NAME}. I'm Igris – your personal Windows control assistant. Ready to assist.",
     "fallback_behavior": {"on_no_match": "I'm not sure how to do that yet, but I'm learning."},
     "base_context": "You are Igris, an AI trained to match user requests to known Windows tasks.",
     "version": "unknown"

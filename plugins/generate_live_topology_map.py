@@ -6,6 +6,7 @@ Generate Live Topology Map Plugin
 """
 import tkinter as tk
 import random
+import os
 import matplotlib.pyplot as plt
 # --- Import dependent plugins ---
 try:
@@ -17,7 +18,10 @@ except ImportError:
         print("[WARN] network_scanner not found. Using simulated data.")
         return [
             {'ip': '192.168.1.1', 'hostname': 'Gateway'},
-            {'ip': '192.168.1.101', 'hostname': 'Aarons-PC'},
+            {
+                'ip': '192.168.1.101',
+                'hostname': os.getenv("IGRIS_SAMPLE_HOSTNAME", "user-pc")
+            },
             {'ip': '192.168.1.152', 'hostname': 'smart-tv.local'},
         ]
 

@@ -1,5 +1,5 @@
 """
-Learns Aaron's Routines Plugin
+Learn User's Routines Plugin
 - Analyzes plugin execution history from ai_memory.json.
 - Identifies the most frequently used tools and suggests potential automations.
 """
