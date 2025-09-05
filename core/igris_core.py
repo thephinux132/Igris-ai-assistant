@@ -76,6 +76,27 @@ def run_cmd(cmd_list: list) -> str:
     return out if out else "Command executed."
 
 
+def run_shell(cmd: str, *, timeout: int | None = None):
+    """
+    Execute a shell command string. Returns (returncode, stdout, stderr).
+    Compatible with plugins expecting a tuple.
+    """
+    try:
+        p = subprocess.run(
+            cmd,
+            shell=True,
+            capture_output=True,
+            text=True,
+            timeout=timeout,
+            encoding='utf-8',
+            errors='replace',
+            check=False,
+        )
+        return p.returncode, (p.stdout or "").strip(), (p.stderr or "").strip()
+    except Exception as e:
+        return 1, "", f"[ERROR] run_shell exception: {e}"
+
+
 def ask_ollama(prompt: str, model: str = None) -> str:
     """
     Call Ollama with the given prompt and return its raw response.

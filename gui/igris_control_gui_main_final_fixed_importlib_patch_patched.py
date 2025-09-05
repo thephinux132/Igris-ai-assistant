@@ -743,7 +743,14 @@ class App(tk.Tk):
             plugin_module = next((p['module'] for p in plugins if p['name'] == 'image_analyzer'), None)
             if not plugin_module:
                 raise FileNotFoundError("[ERROR] image_analyzer plugin not found.")
-            return plugin_module.run(self, img_path, q_text)
+            # Be flexible with plugin signatures: try (self, img, q), then (img, q), then ()
+            try:
+                return plugin_module.run(self, img_path, q_text)
+            except TypeError:
+                try:
+                    return plugin_module.run(img_path, q_text)
+                except TypeError:
+                    return plugin_module.run()
 
         self.run_async(
             worker, image_path, question,
@@ -835,8 +842,14 @@ class App(tk.Tk):
 
         def worker():
             """The actual plugin execution logic, capturing output."""
-            with io.StringIO() as buf, contextlib.redirect_stdout(buf): # Pass self to the plugin's run method
-                result = plugin_module.run(*args)
+            with io.StringIO() as buf, contextlib.redirect_stdout(buf): # Flexible run() calling
+                try:
+                    result = plugin_module.run(*args)
+                except TypeError:
+                    try:
+                        result = plugin_module.run()
+                    except TypeError:
+                        result = plugin_module.run(self, *args)
                 output = buf.getvalue()
 
             if _pel:
@@ -864,7 +877,11 @@ class App(tk.Tk):
 
         def worker():
             with io.StringIO() as buf, contextlib.redirect_stdout(buf):
-                result = plugin_to_run.run(self)
+                # Try with context, then no-arg
+                try:
+                    result = plugin_to_run.run(self)
+                except TypeError:
+                    result = plugin_to_run.run()
                 output = buf.getvalue().strip()
 
             final_output = result if result is not None else output
