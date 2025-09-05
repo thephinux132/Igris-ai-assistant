@@ -928,28 +928,28 @@ class App(tk.Tk):
             if hasattr(plugin_module, "run"):
                 self.update_status(f"Running plugin: {plugin_name}...")
                 try:
-                # Redirect stdout to capture print statements from the plugin
-                with io.StringIO() as buf, contextlib.redirect_stdout(buf):
-                    # Try calling run() with provided args; if signature mismatch, fall back
-                    try:
-                        result = plugin_module.run(*args)
-                    except TypeError:
+                    # Redirect stdout to capture print statements from the plugin
+                    with io.StringIO() as buf, contextlib.redirect_stdout(buf):
+                        # Try calling run() with provided args; if signature mismatch, fall back
                         try:
-                            result = plugin_module.run()
+                            result = plugin_module.run(*args)
                         except TypeError:
-                            # As a last resort, try passing context explicitly
-                            result = plugin_module.run(self, *args)
-                    output = buf.getvalue()
+                            try:
+                                result = plugin_module.run()
+                            except TypeError:
+                                # As a last resort, try passing context explicitly
+                                result = plugin_module.run(self, *args)
+                        output = buf.getvalue()
 
-                    self._add_ai_response(f"[Plugin: {plugin_name}] Result:\n{result}")
-                    
-                    if _pel:
-                        try: _pel.run(plugin_name)
-                        except Exception as _e: self.after(0, self.report_error, f"[Logger] {_e}")
+                        self._add_ai_response(f"[Plugin: {plugin_name}] Result:\n{result}")
+                        
+                        if _pel:
+                            try: _pel.run(plugin_name)
+                            except Exception as _e: self.after(0, self.report_error, f"[Logger] {_e}")
 
-                    # Display any captured print output from the plugin
-                    if output and output.strip():
-                        self.after(0, self.chat_area.insert, tk.END, f"[Plugin Output] {output.strip()}\n")
+                        # Display any captured print output from the plugin
+                        if output and output.strip():
+                            self.after(0, self.chat_area.insert, tk.END, f"[Plugin Output] {output.strip()}\n")
                     self.after(0, self.chat_area.see, tk.END)
 
                     # --- Suggestion Logic ---
