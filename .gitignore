@@ -32,3 +32,16 @@ ai_script_history/
 desktop_command_queue.json
 plugins/user_profile.local.json
 gui/user_profile.local.json
+
+# Archives
+*.zip
+*.tar.gz
+
+# Backup and temporary directories
+backups/
+releases/
+_review_zero_byte/
+_organize/
+
+# Specific backup files
+backup_duplicates/
