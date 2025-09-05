@@ -3,6 +3,7 @@ import subprocess
 import re
 import hashlib
 import getpass
+import base64
 from pathlib import Path
 import psutil
 
@@ -178,3 +179,69 @@ def authenticate_admin() -> bool:
         pass
 
     return False
+
+
+# --- Compatibility helpers expected by GUI/CLI variants ---
+def verify_admin_pin(raw_pin: str, policy: dict | None = None) -> bool:
+    """Constant-time check of a user-entered PIN against policy hash."""
+    try:
+        p = policy or load_policy()
+        want = (p or {}).get("admin_pin_hash", "")
+        if not want:
+            return False
+        got = hashlib.sha256((raw_pin or "").encode('utf-8')).hexdigest()
+        import hmac
+        return hmac.compare_digest(got, want)
+    except Exception:
+        return False
+
+
+def strict_json_from_text(text: str) -> dict | None:
+    """Extract the first JSON object from arbitrary text or fenced code."""
+    t = (text or "").strip()
+    if t.startswith("```json"):
+        t = t[7:].strip()
+    if t.startswith("```"):
+        t = t[3:].strip()
+    if t.endswith("```"):
+        t = t[:-3].strip()
+    m = re.search(r"\{.*?\}", t, re.DOTALL)
+    if not m:
+        return None
+    try:
+        return json.loads(m.group(0))
+    except Exception:
+        return None
+
+
+def ask_ollama_with_image(prompt: str, image_path: str, model: str | None = None, endpoint: str | None = None) -> dict:
+    """
+    Send an image + prompt to an Ollama HTTP endpoint if available.
+    Returns a dict with at least a 'response' key. Falls back to stub.
+    """
+    try:
+        import requests  # type: ignore
+    except Exception:
+        return {"response": "[ERROR] requests not available for image requests."}
+
+    ep = endpoint or "http://localhost:11434/api/generate"
+    mdl = model or default_ollama_model
+    try:
+        img_b64 = base64.b64encode(Path(image_path).read_bytes()).decode('ascii')
+    except Exception as e:
+        return {"response": f"[ERROR] could not read image: {e}"}
+
+    payload = {
+        "model": mdl,
+        "prompt": prompt,
+        "stream": False,
+        "images": [img_b64],
+    }
+    try:
+        resp = requests.post(ep, json=payload, timeout=120)
+        resp.raise_for_status()
+        data = resp.json() if resp.headers.get('content-type','').startswith('application/json') else {}
+        out = data.get("response") if isinstance(data, dict) else None
+        return {"response": out or ""}
+    except Exception as e:
+        return {"response": f"[ERROR] ollama image call failed: {e}"}

@@ -361,7 +361,7 @@ if RoutedLLMHandler is not None:
     def _local_llm(prompt: str) -> str:
         # Read live identity each call
         model = identity.get("default_model", OLLAMA_MODEL)
-        return core_ask(prompt, model=model, system_prefix=base_context, force_json=True)
+        return core_ask(prompt, model=model)
     try:
         _ROUTER = RoutedLLMHandler(local_llm_fn=_local_llm)
     except Exception:
@@ -372,7 +372,7 @@ def ask_ollama(prompt):
     if _ROUTER is not None:
         return _ROUTER.ask_ollama(prompt)
     model = identity.get("default_model", OLLAMA_MODEL)
-    return core_ask(prompt, model=model, system_prefix=base_context, force_json=True)
+    return core_ask(prompt, model=model)
 
 
     
