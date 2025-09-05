@@ -2,7 +2,7 @@ import os, sys, json, threading, re, shlex, shutil, subprocess, time, io, contex
 from datetime import datetime, timedelta
 from pathlib import Path
 import tkinter as tk
-from tkinter import scrolledtext, messagebox, filedialog, ttk
+from tkinter import scrolledtext, messagebox, filedialog, simpledialog, ttk
 from concurrent.futures import ThreadPoolExecutor
 from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import padding
