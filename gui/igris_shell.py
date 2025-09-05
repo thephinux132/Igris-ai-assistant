@@ -345,6 +345,17 @@ Ctrl+`       -  Toggle Fullscreen
         self.hide_command_palette()
 
 
+def launch_shell():
+    """Launch the Igris desktop shell window.
+
+    Exposed for plugins that import and launch the desktop shell
+    (e.g., plugins/launch_desktop_mode.py).
+    """
+    root = tk.Tk()
+    app = IgrisShell(root)
+    root.mainloop()
+
+
 if __name__ == "__main__":
     root = tk.Tk()
     app = IgrisShell(root)
