@@ -928,11 +928,18 @@ class App(tk.Tk):
             if hasattr(plugin_module, "run"):
                 self.update_status(f"Running plugin: {plugin_name}...")
                 try:
-                    # Redirect stdout to capture print statements from the plugin
-                    with io.StringIO() as buf, contextlib.redirect_stdout(buf):
-                        # Pass self (the app instance) and any other arguments to the plugin's run function
+                # Redirect stdout to capture print statements from the plugin
+                with io.StringIO() as buf, contextlib.redirect_stdout(buf):
+                    # Try calling run() with provided args; if signature mismatch, fall back
+                    try:
                         result = plugin_module.run(*args)
-                        output = buf.getvalue()
+                    except TypeError:
+                        try:
+                            result = plugin_module.run()
+                        except TypeError:
+                            # As a last resort, try passing context explicitly
+                            result = plugin_module.run(self, *args)
+                    output = buf.getvalue()
 
                     self._add_ai_response(f"[Plugin: {plugin_name}] Result:\n{result}")
                     
