@@ -74,6 +74,12 @@ try:
     from igris_core import strict_json_from_text, ask_ollama as core_ask, verify_admin_pin, ask_ollama_with_image
 except ModuleNotFoundError:
     from core.igris_core import strict_json_from_text, ask_ollama as core_ask, verify_admin_pin, ask_ollama_with_image
+ 
+# Optional routed handler
+try:
+    from gui.llm_handler import RoutedLLMHandler  # type: ignore
+except Exception:
+    RoutedLLMHandler = None  # type: ignore
 
 # --- Optional deps (don’t crash if missing) ---
 try:
@@ -350,8 +356,21 @@ def show_fingerprint_prompt(root):
     if confirmed:
         return True
     return bool(confirmed)
+_ROUTER = None
+if RoutedLLMHandler is not None:
+    def _local_llm(prompt: str) -> str:
+        # Read live identity each call
+        model = identity.get("default_model", OLLAMA_MODEL)
+        return core_ask(prompt, model=model, system_prefix=base_context, force_json=True)
+    try:
+        _ROUTER = RoutedLLMHandler(local_llm_fn=_local_llm)
+    except Exception:
+        _ROUTER = None
+
 def ask_ollama(prompt):
-    # Pull model from identity if present, else fall back to the constant
+    # Delegate to router if available; otherwise direct core call
+    if _ROUTER is not None:
+        return _ROUTER.ask_ollama(prompt)
     model = identity.get("default_model", OLLAMA_MODEL)
     return core_ask(prompt, model=model, system_prefix=base_context, force_json=True)
 

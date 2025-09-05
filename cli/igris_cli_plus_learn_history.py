@@ -26,6 +26,12 @@ if not igris_core_path.exists():
 sys.path.insert(0, str(base_dir))
 import igris_core
 from igris_core import load_policy, respond_with_review, ask_ollama as _ask, run_cmd, match_intent, authenticate_admin
+try:
+    from gui.llm_handler import RoutedLLMHandler  # type: ignore
+    _router = RoutedLLMHandler()
+    _ask = _router.ask_ollama
+except Exception:
+    pass
 
 def get_user_name() -> str:
     profile_override = base_dir / "plugins" / "user_profile.local.json"

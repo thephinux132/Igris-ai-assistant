@@ -48,15 +48,15 @@ class RoutedLLMHandler(LLMHandler):
     Falls back to local-only if routing modules are unavailable.
     """
 
-    def __init__(self, remote_llm_fn=None):
+    def __init__(self, remote_llm_fn=None, local_llm_fn=None):
         # Local LLM via existing core implementation
         from igris_core import ask_ollama as core_ask
 
         self._use_router = AIRouter is not None
 
-        # If no remote is provided, default to local callable (acts as pass-through)
+        # Allow callers to override local/remote functions
+        self._local = local_llm_fn or core_ask
         self._remote = remote_llm_fn or core_ask
-        self._local = core_ask
 
         if self._use_router:
             # Load policy (optional)

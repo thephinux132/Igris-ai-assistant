@@ -12,6 +12,12 @@ from prompt_toolkit.history import FileHistory
 
 import igris_core
 from igris_core import load_policy, respond_with_review, ask_ollama as _ask, run_cmd, match_intent
+try:
+    from gui.llm_handler import RoutedLLMHandler  # type: ignore
+    _router = RoutedLLMHandler()
+    _ask = _router.ask_ollama
+except Exception:
+    pass
 
 def get_user_name() -> str:
     profile_override = Path(__file__).resolve().parent.parent / "plugins" / "user_profile.local.json"
