@@ -1,0 +1,18 @@
+{
+  "ai_router": {
+    "default_mode": "balanced",
+    "low_battery_mode": "fast",
+    "high_latency_mode": "fast",
+    "plugged_in_mode": "smart",
+    "user_priority": "balanced",
+    "max_latency_ms_fast": 800,
+    "max_latency_ms_smart": 4000
+  },
+  "orchestrator": {
+    "watchdog_timeout_sec": 60,
+    "preemptive_thresholds": {
+      "high_cpu_percent": 85,
+      "high_memory_percent": 85
+    }
+  }
+}
