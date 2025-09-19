@@ -1,7 +1,9 @@
 (function () {
   "use strict";
 
-  const storageKey = "family-gift-registry-v1";
+
+  const storageKey = "family-gift-registry-v2";
+
   const defaultGifts = [
     {
       id: "gift-w-1",
@@ -28,6 +30,19 @@
       added: "2024-02-02T18:30:00.000Z"
     },
     {
+
+      id: "gift-w-3",
+      name: "Moonlit rooftop picnic kit",
+      recipient: "wife",
+      category: "experience",
+      priority: "Medium",
+      price: 110,
+      link: "https://www.simplesatchel.com",
+      notes: "Pack her favorite tapas, string lights, and a new playlist for slow dancing under the stars.",
+      purchased: false,
+      added: "2024-03-14T17:45:00.000Z"
+    },
+    {
       id: "gift-k-1",
       name: "Junior chef Saturday",
       recipient: "kids",
@@ -50,8 +65,32 @@
       notes: "Add markers that match their favorite heroes.",
       purchased: false,
       added: "2024-01-28T21:10:00.000Z"
+
+    },
+    {
+      id: "gift-k-3",
+      name: "Backyard astronomy night",
+      recipient: "kids",
+      category: "learning",
+      priority: "High",
+      price: 60,
+      link: "https://www.exploratoriumstore.com",
+      notes: "Set up a telescope, print constellation maps, and wrap a cozy blanket for stargazing.",
+      purchased: false,
+      added: "2024-02-18T20:05:00.000Z"
     }
   ];
+
+  const recipients = ["wife", "kids"];
+
+  const lists = Object.fromEntries(
+    recipients.map((key) => [key, document.querySelector(`[data-recipient-list="${key}"]`)])
+  );
+
+  const countLabels = Object.fromEntries(
+    recipients.map((key) => [key, document.querySelector(`[data-count-${key}]`)])
+  );
+
 
   const hasLocalStorage = (() => {
     try {
@@ -64,15 +103,28 @@
     }
   })();
 
-  const lists = {
-    wife: document.querySelector('[data-recipient-list="wife"]'),
-    kids: document.querySelector('[data-recipient-list="kids"]')
-  };
 
-  const countLabels = {
-    wife: document.querySelector("[data-count-wife]"),
-    kids: document.querySelector("[data-count-kids]")
-  };
+  function normalizeRecipient(value) {
+    const normalized = String(value || "").toLowerCase();
+    switch (normalized) {
+      case "wife":
+      case "mom":
+      case "spouse":
+        return "wife";
+      case "kid":
+      case "kids":
+      case "child":
+      case "children":
+      case "son":
+      case "daughter":
+        return "kids";
+      case "dad":
+        return "kids";
+      default:
+        return "kids";
+    }
+  }
+
 
   const statEls = {
     total: document.querySelector("[data-stat-total]"),
@@ -111,7 +163,9 @@
     return {
       id: String(gift.id || cryptoRandomId()),
       name: gift.name || "Untitled gift",
-      recipient: gift.recipient === "wife" ? "wife" : "kids",
+
+      recipient: normalizeRecipient(gift.recipient),
+
       category: gift.category || "experience",
       priority: gift.priority || "Medium",
       price: normalizePrice(gift.price),
@@ -163,19 +217,29 @@
   }
 
   function renderLists() {
-    const grouped = { wife: [], kids: [] };
+
+    const grouped = {};
+    recipients.forEach((key) => {
+      grouped[key] = [];
+    });
+
     for (const gift of gifts) {
-      grouped[gift.recipient].push(gift);
+      const recipient = normalizeRecipient(gift.recipient);
+      if (!grouped[recipient]) {
+        grouped[recipient] = [];
+      }
+      grouped[recipient].push(gift);
     }
 
-    grouped.wife.sort(sortByPurchasedThenPriority);
-    grouped.kids.sort(sortByPurchasedThenPriority);
+    recipients.forEach((recipient) => {
+      const recipientList = grouped[recipient] || [];
+      recipientList.sort(sortByPurchasedThenPriority);
+      updateList(lists[recipient], recipientList);
+      if (countLabels[recipient]) {
+        countLabels[recipient].textContent = summaryText(recipientList.length);
+      }
+    });
 
-    updateList(lists.wife, grouped.wife);
-    updateList(lists.kids, grouped.kids);
-
-    countLabels.wife.textContent = summaryText(grouped.wife.length);
-    countLabels.kids.textContent = summaryText(grouped.kids.length);
   }
 
   const priorityWeight = { High: 0, Medium: 1, Low: 2 };
@@ -200,6 +264,11 @@
   }
 
   function updateList(listElement, items) {
+
+    if (!listElement) {
+      return;
+    }
+
     listElement.innerHTML = "";
     if (!items.length) {
       const empty = document.createElement("li");

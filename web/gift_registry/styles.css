@@ -359,6 +359,9 @@ img {
 .wishlist__columns {
   display: grid;
   gap: 2rem;
+
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+
 }
 
 .wishlist__column {
