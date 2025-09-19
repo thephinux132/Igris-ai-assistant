@@ -1,9 +1,9 @@
 # Family Gift Registry
 
-A lightweight, single-page gift registry crafted especially for organizing thoughtful surprises for mom, dad, and the kids.
+A lightweight, single-page gift registry crafted especially for organizing thoughtful surprises for my wife and kids.
 
 ## Features
-- ✨ Curated inspiration section with filters for mom, dad, the kids, and gift types
+- ✨ Curated inspiration section with filters for my wife, the kids, and gift types
 - ✅ Interactive wishlist that tracks purchased items, budgets, and notes
 - ➕ Form to add personalized gift ideas (saved locally in the browser)
 - 🗓️ Planner timeline with upcoming celebrations and automatic countdown

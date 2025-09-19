@@ -1,12 +1,12 @@
 (function () {
   "use strict";
 
-  const storageKey = "family-gift-registry-v1";
+  const storageKey = "family-gift-registry-v2";
   const defaultGifts = [
     {
-      id: "gift-m-1",
+      id: "gift-w-1",
       name: "Sunrise coffee tasting basket",
-      recipient: "mom",
+      recipient: "wife",
       category: "wellness",
       priority: "High",
       price: 95,
@@ -16,9 +16,9 @@
       added: "2024-01-12T09:00:00.000Z"
     },
     {
-      id: "gift-m-2",
+      id: "gift-w-2",
       name: "StoryWorth subscription",
-      recipient: "mom",
+      recipient: "wife",
       category: "keepsake",
       priority: "Medium",
       price: 99,
@@ -28,28 +28,16 @@
       added: "2024-02-02T18:30:00.000Z"
     },
     {
-      id: "gift-d-1",
-      name: "Backyard grill masterclass",
-      recipient: "dad",
+      id: "gift-w-3",
+      name: "Moonlit rooftop picnic kit",
+      recipient: "wife",
       category: "experience",
       priority: "Medium",
-      price: 85,
-      link: "https://www.surlatable.com/classes",
-      notes: "Reserve a Saturday when the whole family can be sous-chefs.",
+      price: 110,
+      link: "https://www.simplesatchel.com",
+      notes: "Pack her favorite tapas, string lights, and a new playlist for slow dancing under the stars.",
       purchased: false,
-      added: "2024-04-14T17:45:00.000Z"
-    },
-    {
-      id: "gift-d-2",
-      name: "Custom engraved multitool",
-      recipient: "dad",
-      category: "keepsake",
-      priority: "High",
-      price: 72,
-      link: "https://www.etsy.com/listing/228412732",
-      notes: "Engrave the kids' initials on the handle before gifting.",
-      purchased: false,
-      added: "2024-02-22T11:15:00.000Z"
+      added: "2024-03-14T17:45:00.000Z"
     },
     {
       id: "gift-k-1",
@@ -74,10 +62,22 @@
       notes: "Add markers that match their favorite heroes.",
       purchased: false,
       added: "2024-01-28T21:10:00.000Z"
+    },
+    {
+      id: "gift-k-3",
+      name: "Backyard astronomy night",
+      recipient: "kids",
+      category: "learning",
+      priority: "High",
+      price: 60,
+      link: "https://www.exploratoriumstore.com",
+      notes: "Set up a telescope, print constellation maps, and wrap a cozy blanket for stargazing.",
+      purchased: false,
+      added: "2024-02-18T20:05:00.000Z"
     }
   ];
 
-  const recipients = ["mom", "dad", "kids"];
+  const recipients = ["wife", "kids"];
 
   const lists = Object.fromEntries(
     recipients.map((key) => [key, document.querySelector(`[data-recipient-list="${key}"]`)])
@@ -99,13 +99,24 @@
   })();
 
   function normalizeRecipient(value) {
-    if (value === "dad") {
-      return "dad";
+    const normalized = String(value || "").toLowerCase();
+    switch (normalized) {
+      case "wife":
+      case "mom":
+      case "spouse":
+        return "wife";
+      case "kid":
+      case "kids":
+      case "child":
+      case "children":
+      case "son":
+      case "daughter":
+        return "kids";
+      case "dad":
+        return "kids";
+      default:
+        return "kids";
     }
-    if (value === "mom" || value === "wife") {
-      return "mom";
-    }
-    return "kids";
   }
 
   const statEls = {
