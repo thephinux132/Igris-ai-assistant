@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Family Gift Registry</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <noscript>
+    <div class="no-script">This gift registry uses a bit of JavaScript for saving items. Please enable JavaScript for the full experience.</div>
+  </noscript>
+  <header class="site-header">
+    <div class="container">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">🎁</span>
+        <span class="brand-text">Family Gift Registry</span>
+      </div>
+      <nav class="site-nav" aria-label="Primary navigation">
+        <a href="#featured">Ideas</a>
+        <a href="#wishlist">Wishlist</a>
+        <a href="#planner">Planner</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero__content">
+        <div class="hero__intro">
+          <p class="hero__eyebrow">Made with love for my favorite people</p>
+          <h1>Your curated hub for thoughtful surprises</h1>
+          <p class="hero__lead">
+            Keep every gift idea in one beautiful place. From cozy mornings for mom to gadget upgrades for dad and adventure kits
+            for the kids, this registry keeps track of what they love, what's already wrapped, and the big days coming up.
+          </p>
+          <div class="hero__cta">
+            <a class="btn btn--primary" href="#wishlist">Plan the next surprise</a>
+            <a class="btn" href="#featured">Browse inspiration</a>
+          </div>
+        </div>
+        <aside class="hero__highlights" aria-label="Family snapshot">
+          <article class="highlight-card">
+            <h2>Family Highlights</h2>
+            <ul>
+              <li><strong>Anniversary getaway</strong> booked for May 24</li>
+              <li><strong>STEM camp</strong> wishlist open for summer</li>
+              <li>Every purchase tracked so nothing gets doubled</li>
+            </ul>
+            <p class="note">Tip: mark gifts as purchased to update the countdown stats instantly.</p>
+          </article>
+          <article class="countdown-card" aria-live="polite">
+            <h3>Upcoming Celebrations</h3>
+            <div class="countdown" data-countdown>
+              <div>
+                <span class="countdown__value" data-countdown-days>--</span>
+                <span class="countdown__label">days</span>
+              </div>
+              <div>
+                <span class="countdown__value" data-countdown-hours>--</span>
+                <span class="countdown__label">hours</span>
+              </div>
+              <div>
+                <span class="countdown__value" data-countdown-minutes>--</span>
+                <span class="countdown__label">mins</span>
+              </div>
+            </div>
+            <p class="countdown-card__event">Next: Family picnic &amp; surprise scavenger hunt</p>
+          </article>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section section--light" id="featured">
+      <div class="container">
+        <header class="section__header">
+          <div>
+            <p class="section__eyebrow">Curated ideas</p>
+            <h2>Thoughtful gifts for the crew that makes my heart full</h2>
+          </div>
+          <div class="filters" role="toolbar" aria-label="Filter gift ideas">
+            <button class="filter-btn is-active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="mom">For mom</button>
+            <button class="filter-btn" data-filter="dad">For dad</button>
+            <button class="filter-btn" data-filter="kids">For the kids</button>
+            <button class="filter-btn" data-filter="experience">Experience</button>
+            <button class="filter-btn" data-filter="keepsake">Keepsake</button>
+            <button class="filter-btn" data-filter="learning">Learning</button>
+          </div>
+        </header>
+
+        <div class="card-grid" data-featured-grid>
+          <article class="gift-card" data-groups="mom experience">
+            <div class="gift-card__tag">Weekend Escape</div>
+            <h3>Mountaintop Cabin Weekend</h3>
+            <p>Two nights at a quiet cabin with a private hot tub, chef-prepared meals, and a photo session to capture the memories.</p>
+            <div class="gift-card__meta">
+              <span>$540</span>
+              <a href="https://www.getaway.house" target="_blank" rel="noopener">View inspiration</a>
+            </div>
+          </article>
+
+          <article class="gift-card" data-groups="mom keepsake">
+            <div class="gift-card__tag">Keepsake</div>
+            <h3>Custom Family Story Necklace</h3>
+            <p>Hand-stamped necklace featuring milestone charms chosen by the kids. Comes with a note from each child tucked in the box.</p>
+            <div class="gift-card__meta">
+              <span>$120</span>
+              <a href="https://www.etsy.com" target="_blank" rel="noopener">Shop styles</a>
+            </div>
+          </article>
+
+          <article class="gift-card" data-groups="mom experience">
+            <div class="gift-card__tag">Mindful Moment</div>
+            <h3>At-Home Spa &amp; Story Night</h3>
+            <p>A basket of spa treats, a handwritten playlist, and the kids reading their favorite bedtime story while candles glow.</p>
+            <div class="gift-card__meta">
+              <span>$85</span>
+              <a href="https://www.uncommongoods.com" target="_blank" rel="noopener">Build the set</a>
+            </div>
+          </article>
+
+          <article class="gift-card" data-groups="dad experience">
+            <div class="gift-card__tag">Quality Time</div>
+            <h3>Workshop Day with Dad</h3>
+            <p>Reserve a woodworking studio so each kid can build a keepsake alongside dad, followed by a celebratory lunch voucher.</p>
+            <div class="gift-card__meta">
+              <span>$95</span>
+              <a href="https://www.rockler.com/in-store-events" target="_blank" rel="noopener">Reserve a spot</a>
+            </div>
+          </article>
+
+          <article class="gift-card" data-groups="dad keepsake">
+            <div class="gift-card__tag">Everyday Joy</div>
+            <h3>Custom Sketch Travel Mug</h3>
+            <p>Insulated mug printed with the kids' doodles and a hidden message inside the lid to brighten his morning commute.</p>
+            <div class="gift-card__meta">
+              <span>$48</span>
+              <a href="https://www.shutterfly.com" target="_blank" rel="noopener">Create yours</a>
+            </div>
+          </article>
+
+          <article class="gift-card" data-groups="kids learning">
+            <div class="gift-card__tag">STEM Fun</div>
+            <h3>Rocket Lab Afternoon</h3>
+            <p>Build-your-own rocket launcher kit followed by a backyard launch party complete with mission badges and cocoa.</p>
+            <div class="gift-card__meta">
+              <span>$65</span>
+              <a href="https://www.kiwico.com" target="_blank" rel="noopener">Explore kits</a>
+            </div>
+          </article>
+
+          <article class="gift-card" data-groups="kids keepsake">
+            <div class="gift-card__tag">Memory Maker</div>
+            <h3>Adventure Scrapbook Starter</h3>
+            <p>A bundle of instant film, blank comic panels, and colorful washi tapes so the kids can document every adventure.</p>
+            <div class="gift-card__meta">
+              <span>$48</span>
+              <a href="https://www.artscow.com" target="_blank" rel="noopener">Grab supplies</a>
+            </div>
+          </article>
+
+          <article class="gift-card" data-groups="kids experience">
+            <div class="gift-card__tag">Family Time</div>
+            <h3>Twilight Backyard Movie Night</h3>
+            <p>Projector rental, homemade popcorn bar, glow sticks, and a vote on the feature film so every kid feels like the director.</p>
+            <div class="gift-card__meta">
+              <span>$110</span>
+              <a href="https://www.funflicks.com" target="_blank" rel="noopener">Plan it</a>
+            </div>
+          </article>
+        </div>
+        <p class="section__note">Use the filters to focus on just mom, dad, the kids, or a type of gift experience.</p>
+      </div>
+    </section>
+
+    <section class="section" id="wishlist">
+      <div class="container">
+        <header class="section__header">
+          <div>
+            <p class="section__eyebrow">Personalized list</p>
+            <h2>Track everything from wishlists to wrapped surprises</h2>
+          </div>
+          <p class="section__lead">Add new ideas, mark gifts as purchased, and keep an eye on the budget &mdash; all saved to this browser so I can pick up right where I left off.</p>
+        </header>
+
+        <div class="dashboard" role="status" aria-live="polite">
+          <div class="dashboard__stat">
+            <span class="dashboard__value" data-stat-total>0</span>
+            <span class="dashboard__label">Total gifts</span>
+          </div>
+          <div class="dashboard__stat">
+            <span class="dashboard__value" data-stat-purchased>0</span>
+            <span class="dashboard__label">Purchased</span>
+          </div>
+          <div class="dashboard__stat">
+            <span class="dashboard__value" data-stat-remaining>0</span>
+            <span class="dashboard__label">Still to find</span>
+          </div>
+          <div class="dashboard__stat">
+            <span class="dashboard__value" data-stat-budget>$0</span>
+            <span class="dashboard__label">Estimated spend</span>
+          </div>
+        </div>
+
+        <div class="wishlist-layout">
+          <div class="wishlist__columns">
+            <section class="wishlist__column" aria-labelledby="mom-list-title">
+              <div class="column__header">
+                <h3 id="mom-list-title">For Mom</h3>
+                <span class="column__count" data-count-mom>0 items</span>
+              </div>
+              <ul class="gift-list" data-recipient-list="mom"></ul>
+            </section>
+            <section class="wishlist__column" aria-labelledby="dad-list-title">
+              <div class="column__header">
+                <h3 id="dad-list-title">For Dad</h3>
+                <span class="column__count" data-count-dad>0 items</span>
+              </div>
+              <ul class="gift-list" data-recipient-list="dad"></ul>
+            </section>
+            <section class="wishlist__column" aria-labelledby="kids-list-title">
+              <div class="column__header">
+                <h3 id="kids-list-title">For The Kids</h3>
+                <span class="column__count" data-count-kids>0 items</span>
+              </div>
+              <ul class="gift-list" data-recipient-list="kids"></ul>
+            </section>
+          </div>
+
+          <aside class="gift-form-card" aria-labelledby="gift-form-title">
+            <h3 id="gift-form-title">Add a gift idea</h3>
+            <p class="gift-form-card__lead">Jot down new surprises as they pop into my head. Everything stays local to this device.</p>
+            <form id="gift-form" autocomplete="off">
+              <div class="field-group">
+                <label for="gift-name">Gift name</label>
+                <input id="gift-name" name="name" type="text" required placeholder="Ex: StoryWorth subscription" />
+              </div>
+              <div class="field-grid">
+                <div class="field-group">
+                  <label for="gift-recipient">Recipient</label>
+                  <select id="gift-recipient" name="recipient" required>
+                    <option value="mom">Mom</option>
+                    <option value="dad">Dad</option>
+                    <option value="kids">One of the kids</option>
+                  </select>
+                </div>
+                <div class="field-group">
+                  <label for="gift-category">Category</label>
+                  <select id="gift-category" name="category" required>
+                    <option value="experience">Experience</option>
+                    <option value="keepsake">Keepsake</option>
+                    <option value="learning">Learning</option>
+                    <option value="creative">Creative</option>
+                    <option value="wellness">Wellness</option>
+                  </select>
+                </div>
+              </div>
+              <div class="field-grid">
+                <div class="field-group">
+                  <label for="gift-price">Estimated price ($)</label>
+                  <input id="gift-price" name="price" type="number" min="0" step="1" placeholder="75" />
+                </div>
+                <div class="field-group">
+                  <label for="gift-priority">Priority</label>
+                  <select id="gift-priority" name="priority">
+                    <option value="High">High</option>
+                    <option value="Medium" selected>Medium</option>
+                    <option value="Low">Low</option>
+                  </select>
+                </div>
+              </div>
+              <div class="field-group">
+                <label for="gift-link">Link or store note</label>
+                <input id="gift-link" name="link" type="url" placeholder="https://" />
+              </div>
+              <div class="field-group">
+                <label for="gift-notes">Personal notes</label>
+                <textarea id="gift-notes" name="notes" rows="3" placeholder="Add a reminder, size, or the reason they'll love it"></textarea>
+              </div>
+              <div class="form-actions">
+                <button type="submit" class="btn btn--primary">Add to registry</button>
+                <button type="button" class="btn btn--ghost" id="reset-registry">Reset to starter list</button>
+              </div>
+            </form>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--light" id="planner">
+      <div class="container planner">
+        <header class="section__header">
+          <div>
+            <p class="section__eyebrow">Planning ahead</p>
+            <h2>Milestones &amp; moments already on the calendar</h2>
+          </div>
+          <p class="section__lead">These dates keep me on track so every celebration for mom, dad, and the kids feels intentional and joyful.</p>
+        </header>
+
+        <div class="timeline">
+          <article class="timeline__item">
+            <div class="timeline__date">May 24</div>
+            <div class="timeline__content">
+              <h3>Anniversary Weekend</h3>
+              <p>Finalize the surprise breakfast menu, pack the kids' notes, and confirm the sunset photo session.</p>
+            </div>
+          </article>
+          <article class="timeline__item">
+            <div class="timeline__date">June 15</div>
+            <div class="timeline__content">
+              <h3>Summer Adventure Day</h3>
+              <p>Kids choose between the rocket lab or the backyard movie night. Prepare supplies a week ahead.</p>
+            </div>
+          </article>
+          <article class="timeline__item">
+            <div class="timeline__date">August 03</div>
+            <div class="timeline__content">
+              <h3>Back-to-School Pep Rally</h3>
+              <p>Create personalized encouragement kits with new notebooks, a secret note, and favorite snacks.</p>
+            </div>
+          </article>
+          <article class="timeline__item">
+            <div class="timeline__date">December 18</div>
+            <div class="timeline__content">
+              <h3>Family Story Night</h3>
+              <p>Gather the scrapbook updates, record audio messages, and unveil the next year's adventure jar.</p>
+            </div>
+          </article>
+        </div>
+
+        <aside class="planner__aside" aria-label="Helpful planning tips">
+          <h3>Little reminders</h3>
+          <ul>
+            <li>Capture reactions with short voice memos for the memory box.</li>
+            <li>Let the kids help wrap gifts to build anticipation.</li>
+            <li>Balance big wow moments with smaller weekly delights.</li>
+            <li>Revisit the registry before paydays to stay on budget.</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container site-footer__content">
+      <p>Handcrafted with love &mdash; because celebrating mom, dad, and the kids is my favorite hobby.</p>
+      <p class="site-footer__note">This registry saves information only on this device. Clear your browser storage if you ever want a fresh slate.</p>
+    </div>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
