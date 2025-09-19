@@ -1,7 +1,9 @@
 (function () {
   "use strict";
 
+
   const storageKey = "family-gift-registry-v2";
+
   const defaultGifts = [
     {
       id: "gift-w-1",
@@ -28,6 +30,7 @@
       added: "2024-02-02T18:30:00.000Z"
     },
     {
+
       id: "gift-w-3",
       name: "Moonlit rooftop picnic kit",
       recipient: "wife",
@@ -62,6 +65,7 @@
       notes: "Add markers that match their favorite heroes.",
       purchased: false,
       added: "2024-01-28T21:10:00.000Z"
+
     },
     {
       id: "gift-k-3",
@@ -87,6 +91,7 @@
     recipients.map((key) => [key, document.querySelector(`[data-count-${key}]`)])
   );
 
+
   const hasLocalStorage = (() => {
     try {
       const testKey = "__gift_registry_test__";
@@ -97,6 +102,7 @@
       return false;
     }
   })();
+
 
   function normalizeRecipient(value) {
     const normalized = String(value || "").toLowerCase();
@@ -118,6 +124,7 @@
         return "kids";
     }
   }
+
 
   const statEls = {
     total: document.querySelector("[data-stat-total]"),
@@ -156,7 +163,9 @@
     return {
       id: String(gift.id || cryptoRandomId()),
       name: gift.name || "Untitled gift",
+
       recipient: normalizeRecipient(gift.recipient),
+
       category: gift.category || "experience",
       priority: gift.priority || "Medium",
       price: normalizePrice(gift.price),
@@ -208,6 +217,7 @@
   }
 
   function renderLists() {
+
     const grouped = {};
     recipients.forEach((key) => {
       grouped[key] = [];
@@ -229,6 +239,7 @@
         countLabels[recipient].textContent = summaryText(recipientList.length);
       }
     });
+
   }
 
   const priorityWeight = { High: 0, Medium: 1, Low: 2 };
@@ -253,9 +264,11 @@
   }
 
   function updateList(listElement, items) {
+
     if (!listElement) {
       return;
     }
+
     listElement.innerHTML = "";
     if (!items.length) {
       const empty = document.createElement("li");
