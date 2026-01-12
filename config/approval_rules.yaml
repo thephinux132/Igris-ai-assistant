@@ -1,0 +1,66 @@
+# Command Approval Rules
+# Commands matching these patterns require explicit approval
+
+approval_required:
+  # System modification commands
+  - pattern: '^shutdown'
+    level: critical
+    message: "System shutdown requested"
+
+  - pattern: '^reboot|^restart'
+    level: critical
+    message: "System restart requested"
+
+  - pattern: '^schtasks.*/create'
+    level: high
+    message: "Scheduled task creation"
+
+  - pattern: '^reg\s+(add|delete)'
+    level: critical
+    message: "Registry modification"
+
+  - pattern: '^net\s+user'
+    level: critical
+    message: "User account modification"
+
+  - pattern: '^netsh'
+    level: high
+    message: "Network configuration change"
+
+  - pattern: '^sc\s+(create|delete|config)'
+    level: critical
+    message: "Service modification"
+
+  # File system danger
+  - pattern: 'rm\s+-rf|del\s+/[sfq]'
+    level: critical
+    message: "Recursive file deletion"
+
+  - pattern: 'format\s+[a-z]:'
+    level: critical
+    message: "Drive format requested"
+
+# Auto-approve safe commands (no prompt)
+auto_approve:
+  - '^echo\s'
+  - '^dir\s|^ls\s'
+  - '^type\s|^cat\s'
+  - '^ping\s'
+  - '^ipconfig|^ifconfig'
+  - '^hostname$'
+  - '^whoami$'
+
+# Approval levels and their requirements
+levels:
+  low:
+    timeout: 30
+    auth_required: false
+
+  high:
+    timeout: 60
+    auth_required: true
+
+  critical:
+    timeout: 120
+    auth_required: true
+    confirmation_phrase: true

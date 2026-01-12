@@ -12,13 +12,23 @@ PLUGIN_DIR = Path("plugins")
 CONFIG_PATH = Path("ai_assistant_config/task_intents_gui_tags.json")
 DEFAULT_TAG = "Tools"
 
+def validate_path(filepath: Path) -> bool:
+    """Validate file path is safe."""
+    if ".." in str(filepath):
+        return False
+    return True
+
 def load_task_intents():
+    if not validate_path(CONFIG_PATH):
+        raise ValueError("Security violation: Invalid config path.")
     if not CONFIG_PATH.exists():
         return {"tasks": []}
     with open(CONFIG_PATH, "r", encoding="utf-8") as f:
         return json.load(f)
 
 def save_task_intents(data):
+    if not validate_path(CONFIG_PATH):
+        raise ValueError("Security violation: Invalid config path.")
     with open(CONFIG_PATH, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2)
 
@@ -35,7 +45,11 @@ def plugin_to_task_entry(filename, description):
     }
 
 def run():
-    existing = load_task_intents()
+    try:
+        existing = load_task_intents()
+    except ValueError as e:
+        return str(e)
+        
     existing_tasks = {t["action"] for t in existing["tasks"]}
 
     added = 0
@@ -43,6 +57,7 @@ def run():
         if f"plugin:{file.stem}" in existing_tasks:
             continue
         try:
+            # We don't need to spec validate here as glob already restricts to PLUGIN_DIR
             spec = importlib.util.spec_from_file_location(file.stem, file)
             mod = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(mod)

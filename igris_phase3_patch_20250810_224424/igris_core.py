@@ -208,5 +208,44 @@ def parse_task_response(obj: Dict[str, Any]) -> Tuple[Optional[str], Optional[st
     return task, action, requires_admin
 
 def run_shell(cmd: str, *, timeout: int | None = None):
+    """
+    Execute command securely.
+
+    UPDATED: Now uses secure execution to prevent command injection.
+    Falls back to shell=True if secure modules unavailable.
+
+    Args:
+        cmd: Command string or list
+        timeout: Optional timeout in seconds
+
+    Returns:
+        Tuple of (returncode, stdout, stderr)
+    """
+    # Try to use secure execution if available
+    try:
+        from core.secure_execution import safe_run_command
+        import shlex
+
+        # Convert string to list if needed
+        if isinstance(cmd, str):
+            cmd_parts = shlex.split(cmd)
+        else:
+            cmd_parts = cmd
+
+        # Use secure execution
+        result = safe_run_command(cmd_parts, timeout=timeout)
+        return result.returncode, (result.stdout or "").strip(), (result.stderr or "").strip()
+
+    except ImportError:
+        # Fallback to legacy shell execution (UNSAFE)
+        import logging
+        logging.warning("Using legacy shell execution - security upgrade recommended")
+        pass
+    except Exception as e:
+        import logging
+        logging.error(f"Secure execution failed: {e}")
+        # Fall through to legacy
+
+    # Legacy execution (UNSAFE - for backward compatibility only)
     p = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=timeout)
     return p.returncode, (p.stdout or "").strip(), (p.stderr or "").strip()

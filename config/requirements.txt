@@ -6,14 +6,25 @@ Pillow
 numpy
 
 # System & Hardware Interaction
-psutil
+psutil>=5.9.0
 mss
 pyttsx3
-SpeechRecognition
+SpeechRecognition>=3.10.0
 pynput
+PyAudio>=0.2.13
+
+# Security (Added for security hardening)
+argon2-cffi>=21.3.0
+keyring>=23.0.0
+pywin32>=305; sys_platform == 'win32'
+winrt-Windows.Security.Credentials.UI>=1.0.0b1 ; sys_platform == 'win32'
+fido2>=1.1.0
 
 # Plugins & Features
 matplotlib
 cryptography
 docker
 paramiko
+
+# Build dependencies
+pyinstaller>=6.0.0

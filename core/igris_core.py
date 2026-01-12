@@ -5,6 +5,17 @@ import hashlib
 import getpass
 from pathlib import Path
 import psutil
+import logging
+
+# Import new security modules
+try:
+    from core.secrets_manager import SecretsManager
+    from core.secure_auth import AuthenticationManager, RateLimitError, AuthenticationError
+    from core.migration_utils import check_and_migrate
+    SECURITY_MODULES_AVAILABLE = True
+except ImportError as e:
+    logging.warning(f"Security modules not available: {e}")
+    SECURITY_MODULES_AVAILABLE = False
 
 def match_intent(user_input: str, intents: dict) -> dict | None:
     """
@@ -33,32 +44,94 @@ default_ollama_model = "hf.co/bartowski/Llama-3.2-1B-Instruct-GGUF:Q5_K_M"
 def load_policy(policy_path: Path = None) -> dict:
     """
     Load the policy JSON from the given path or a default location.
+
+    NOTE: In the new security model, the admin_pin_hash is stored in
+    secure storage (Windows Credential Manager / keyring), not in the
+    policy file. This function maintains backward compatibility.
     """
     if policy_path is None:
         policy_path = Path(__file__).parent / 'ai_script_policy.json'
+
     try:
-        return json.loads(policy_path.read_text(encoding='utf-8'))
+        policy = json.loads(policy_path.read_text(encoding='utf-8'))
     except (FileNotFoundError, json.JSONDecodeError):
-        return {}
+        policy = {}
+
+    # If using new security modules, load PIN hash from secure storage
+    if SECURITY_MODULES_AVAILABLE:
+        try:
+            secrets_mgr = SecretsManager()
+            pin_hash = secrets_mgr.get_pin_hash()
+
+            # Only add to policy if PIN hash exists in secure storage
+            if pin_hash:
+                policy['admin_pin_hash'] = pin_hash
+            # If no secure PIN but policy has old hash, migration needed
+            elif 'admin_pin_hash' in policy:
+                logging.info("Legacy PIN hash detected - migration recommended")
+        except Exception as e:
+            logging.error(f"Error loading PIN from secure storage: {e}")
+
+    return policy
 
 
 def run_cmd(cmd_list: list) -> str:
     """
-    Execute a command list in a shell, returning stdout or a formatted error.
+    Execute a command list securely without shell=True.
+
+    UPDATED: Now uses secure_execution module to prevent command injection.
+    Falls back to legacy (unsafe) execution if security modules unavailable.
+
+    Args:
+        cmd_list: Command as list [executable, arg1, arg2, ...]
+
+    Returns:
+        Command output or error message
+
+    Security:
+        - No shell=True (prevents command injection)
+        - Input validation on all command parts
+        - Command whitelisting for sensitive operations
+        - Audit logging of all executions
     """
+    # Use new secure execution if available
+    if SECURITY_MODULES_AVAILABLE:
+        try:
+            from core.secure_execution import run_cmd_safe
+            from core.input_validation import ValidationError
+
+            # Use secure execution
+            result = run_cmd_safe(cmd_list)
+            return result
+
+        except ValidationError as e:
+            # Command was blocked by security validation
+            logging.warning(f"Command blocked by security: {e}")
+            return f"[BLOCKED] Security validation failed: {e}"
+        except ImportError as e:
+            logging.error(f"Failed to import secure_execution: {e}")
+            # Fall through to legacy execution
+            pass
+        except Exception as e:
+            logging.error(f"Secure execution failed: {e}")
+            return f"[ERROR] Execution failed: {e}"
+
+    # Fallback to legacy execution (UNSAFE - for backward compatibility only)
+    logging.warning("Using legacy command execution - security upgrade recommended")
+
     command_str = " ".join(cmd_list)
     try:
         proc = subprocess.run(
             command_str,
             capture_output=True,
             text=True,
-            shell=True,
+            shell=True,  # UNSAFE: Only used if secure modules unavailable
             check=False,
             encoding='utf-8',
             errors='replace'
         )
     except FileNotFoundError:
-        return f"[ERROR] Command not found: '{cmd_list[0]}'"
+        return f"[ERROR] Command not found: '{cmd_list[0] if cmd_list else 'unknown'}'"
     except subprocess.CalledProcessError as e:
         if e.returncode == 1 and "Access is denied" in (e.stderr or e.stdout):
             return f"[ERROR] Permission denied: '{command_str}'. Ensure you have necessary privileges."
@@ -68,8 +141,8 @@ def run_cmd(cmd_list: list) -> str:
     except Exception as e:
         return f"[ERROR] Unexpected error executing '{command_str}': {e}"
 
-    out = proc.stdout.strip()
-    err = proc.stderr.strip()
+    out = proc.stdout.strip() if proc.stdout else ""
+    err = proc.stderr.strip() if proc.stderr else ""
     if proc.returncode != 0:
         return f"[ERROR] Command '{command_str}' returned {proc.returncode}: {err or out}"
     return out if out else "Command executed."
@@ -127,19 +200,63 @@ def respond_with_review(user_input: str) -> str:
 
 def cli_show_fingerprint_prompt() -> bool:
     """
-    Console prompt to simulate fingerprint scan.
+    DEPRECATED: Fingerprint authentication was simulated.
+    This function is kept for backward compatibility but always returns False.
+    Use authenticate_admin() instead.
     """
-    try:
-        input("🔒 Please scan your fingerprint and press Enter to simulate: ")
-        return True
-    except KeyboardInterrupt:
-        return False
+    logging.warning("DEPRECATED: cli_show_fingerprint_prompt() called - simulated auth removed")
+    print("[SECURITY] Simulated fingerprint authentication has been removed.")
+    print("[SECURITY] Please use PIN authentication instead.")
+    return False
 
 
-def cli_prompt_for_pin(pin_hash: str) -> bool:
+def cli_prompt_for_pin(pin_hash: str = None) -> bool:
     """
-    Prompt user for PIN, hash it, and compare to stored hash.
+    Prompt user for PIN and verify.
+
+    UPDATED: Now uses Argon2id verification if new security modules available.
+    Falls back to SHA256 for legacy compatibility.
+
+    Args:
+        pin_hash: PIN hash (optional, loads from secure storage if None)
+
+    Returns:
+        True if PIN verified successfully
     """
+    # Use new secure authentication if available
+    if SECURITY_MODULES_AVAILABLE:
+        try:
+            auth_mgr = AuthenticationManager()
+
+            # Check if PIN is configured
+            if not auth_mgr.is_pin_configured():
+                print("[SECURITY] Admin PIN not configured.")
+                print("[SECURITY] Run migration or setup first.")
+                return False
+
+            # Authenticate with PIN
+            entered = getpass.getpass("🔑 Enter admin PIN: ")
+            return auth_mgr.verify_pin(entered)
+
+        except RateLimitError as e:
+            print(f"[SECURITY] {e}")
+            return False
+        except AuthenticationError as e:
+            print(f"[SECURITY] {e}")
+            return False
+        except Exception as e:
+            logging.error(f"Authentication error: {e}")
+            return False
+
+    # Fallback to legacy SHA256 verification
+    if pin_hash is None:
+        policy = load_policy()
+        pin_hash = policy.get('admin_pin_hash')
+
+        if not pin_hash:
+            logging.error("No PIN hash available")
+            return False
+
     entered = getpass.getpass("🔑 Enter admin PIN: ")
     hashed = hashlib.sha256(entered.encode('utf-8')).hexdigest()
     return hashed == pin_hash
@@ -147,34 +264,73 @@ def cli_prompt_for_pin(pin_hash: str) -> bool:
 
 def cli_confirm_by_voice(expected_phrase: str = "yes allow this") -> bool:
     """
-    Console-based fallback for voice confirmation via typed phrase.
+    DEPRECATED: Voice authentication was simulated.
+    This function is kept for backward compatibility but always returns False.
+    Use authenticate_admin() instead.
     """
-    resp = input(f"[Voice Auth] Please type '{expected_phrase}' to confirm: ")
-    return expected_phrase in resp.lower()
-
+    logging.warning("DEPRECATED: cli_confirm_by_voice() called - simulated auth removed")
+    print("[SECURITY] Simulated voice authentication has been removed.")
+    print("[SECURITY] Please use PIN authentication instead.")
+    return False
 
 
 def authenticate_admin() -> bool:
     """
-    Try fingerprint first, then PIN, then voice confirmation.
-    Returns True if any succeed.
+    Authenticate admin user.
+
+    UPDATED: Now uses secure authentication with rate limiting.
+    Simulated fingerprint/voice authentication has been removed.
+
+    Returns:
+        True if authenticated successfully
     """
-    try:
-        if cli_show_fingerprint_prompt():
-            return True
-    except Exception:
-        pass
+    # Use new secure authentication if available
+    if SECURITY_MODULES_AVAILABLE:
+        try:
+            auth_mgr = AuthenticationManager()
 
-    try:
-        if cli_prompt_for_pin():
-            return True
-    except Exception:
-        pass
+            # Check if PIN is configured
+            if not auth_mgr.is_pin_configured():
+                print("[SECURITY] Admin PIN not configured.")
+                print("[SECURITY] Run setup or migration first.")
 
-    try:
-        if cli_confirm_by_voice():
-            return True
-    except Exception:
-        pass
+                # Offer to run migration
+                try:
+                    response = input("Run migration check now? (y/n): ").strip().lower()
+                    if response == 'y':
+                        from core.migration_utils import check_and_migrate
+                        if check_and_migrate():
+                            # Retry authentication after migration
+                            auth_mgr = AuthenticationManager()
+                            return auth_mgr.authenticate_admin()
+                except KeyboardInterrupt:
+                    return False
 
-    return False
+                return False
+
+            # Authenticate with secure PIN
+            return auth_mgr.authenticate_admin()
+
+        except RateLimitError as e:
+            print(f"[SECURITY] {e}")
+            return False
+        except AuthenticationError as e:
+            print(f"[SECURITY] {e}")
+            return False
+        except Exception as e:
+            logging.error(f"Authentication error: {e}")
+            return False
+
+    # Fallback to legacy authentication (deprecated)
+    logging.warning("Using legacy authentication - security upgrade recommended")
+
+    # Load policy for PIN hash
+    policy = load_policy()
+    pin_hash = policy.get('admin_pin_hash')
+
+    if not pin_hash:
+        print("[ERROR] No admin PIN configured and security modules not available.")
+        return False
+
+    # Only try PIN authentication (fingerprint/voice were fake anyway)
+    return cli_prompt_for_pin(pin_hash)

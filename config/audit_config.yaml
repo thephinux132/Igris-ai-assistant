@@ -1,0 +1,29 @@
+# Secure Audit Log Configuration
+
+storage:
+  path: "logs/audit"
+  max_size_mb: 100
+  rotation_count: 10
+
+encryption:
+  enabled: true
+  algorithm: "AES-256-GCM"
+  key_derivation: "PBKDF2"
+
+integrity:
+  enabled: true
+  algorithm: "SHA-256"
+  chain_verification: true  # Each entry links to previous
+
+events:
+  # What to log
+  authentication: true
+  command_execution: true
+  approval_decisions: true
+  api_access: true
+  configuration_changes: true
+  security_violations: true
+
+export:
+  formats: ["json", "csv"]
+  require_authentication: true

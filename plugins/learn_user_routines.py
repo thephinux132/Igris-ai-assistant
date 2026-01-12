@@ -4,6 +4,7 @@ Learn User's Routines Plugin
 - Identifies the most frequently used tools and suggests potential automations.
 """
 import json
+import os
 from pathlib import Path
 from collections import Counter
 
@@ -11,7 +12,16 @@ from collections import Counter
 MEMORY_FILE = Path.home() / "OneDrive" / "Documents" / "ai_memory.json"
 TOP_N_PLUGINS = 3
 
+def validate_path(filepath: Path) -> bool:
+    """Validate file path is safe."""
+    if ".." in str(filepath):
+        return False
+    return True
+
 def run():
+    if not validate_path(MEMORY_FILE):
+        return "[ERROR] Security violation: Invalid memory file path."
+
     if not MEMORY_FILE.exists():
         return "No AI memory file found. Cannot analyze routines yet."
 
@@ -48,23 +58,3 @@ def run():
                       "Would you like to create a shortcut or schedule it to run automatically?")
 
     return "\n".join(report)
-
-if __name__ == "__main__":
-    # For testing, let's create a dummy profile file
-    dummy_memory = {
-        "plugin_history": [
-            {"plugin_name": "network_scanner", "timestamp": "2023-10-27T10:00:00Z"},
-            {"plugin_name": "harden_os", "timestamp": "2023-10-26T15:30:00Z"},
-            {"plugin_name": "run_security_audit", "timestamp": "2023-10-27T11:00:00Z"},
-            {"plugin_name": "network_scanner", "timestamp": "2023-10-27T10:01:00Z"},
-            {"plugin_name": "network_scanner", "timestamp": "2023-10-27T10:02:00Z"},
-            {"plugin_name": "run_security_audit", "timestamp": "2023-10-27T11:01:00Z"},
-        ]
-    }
-    with open(MEMORY_FILE, "w", encoding="utf-8") as f:
-        json.dump(dummy_memory, f, indent=2)
-    
-    print(run())
-    
-    # Clean up the dummy file
-    MEMORY_FILE.unlink()

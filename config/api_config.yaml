@@ -1,0 +1,39 @@
+# Remote API Configuration
+
+server:
+  host: "127.0.0.1"  # Localhost only by default
+  port: 8420
+  debug: false
+
+security:
+  # API key authentication
+  require_api_key: true
+  api_key_header: "X-Igris-API-Key"
+
+  # Rate limiting
+  rate_limit: 60  # requests per minute
+  burst_limit: 10  # max burst
+
+  # TLS (recommended for non-localhost)
+  tls_enabled: false
+  tls_cert: "config/certs/server.crt"
+  tls_key: "config/certs/server.key"
+
+  # Allowed origins (CORS)
+  allowed_origins:
+    - "http://localhost:*"
+    - "https://localhost:*"
+
+  # IP whitelist (empty = allow all)
+  ip_whitelist: []
+
+endpoints:
+  # Enable/disable specific endpoints
+  status: true
+  execute: true  # Requires approval workflow
+  plugins: true
+  voice: false   # Disabled by default
+
+logging:
+  access_log: true
+  log_path: "logs/api_access.log"

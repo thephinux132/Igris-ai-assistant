@@ -90,36 +90,19 @@ def save_to_history(script):
         f.write(script)
     return path
 
-def run_cmd(cmd_list):
-    """Executes a command list in a shell."""
-    command_str = " ".join(cmd_list)
-    try:
-        # Using shell=True is necessary for many Windows-specific commands like 'start'
-        proc = subprocess.run(
-            command_str,
-            capture_output=True,
-            text=True,
-            shell=True,
-            check=False,
-            encoding='utf-8',
-            errors='replace'
-        )
-    except FileNotFoundError:
-        return f"[ERROR] Command not found: '{cmd_list[0]}'"
-    except subprocess.CalledProcessError as e:
-        if e.returncode == 1 and "Access is denied" in (e.stderr or e.stdout):
-            return f"[ERROR] Permission denied: '{command_str}'. Ensure you have necessary privileges."
-        else:
-            return f"[ERROR] Command '{command_str}' failed with return code {e.returncode}: {e.stderr or e.stdout}"
-    except OSError as e:
-        return f"[ERROR] OS error executing '{command_str}': {e}"
-    except Exception as e:
-        return f"[ERROR] Unexpected error executing '{command_str}': {e}"
-    out = proc.stdout.strip()
-    err = proc.stderr.strip()
-    if proc.returncode != 0:
-        return f"[ERROR] Command '{command_str}' returned {proc.returncode}: {err or out}"
-    return out if out else "Command executed."
+def run_cmd(cmd_list: list) -> str:
+      """Run command securely without shell=True."""
+      try:
+          from core.secure_execution import safe_run_command
+          result = safe_run_command(cmd_list, timeout=60)
+          return result.stdout if result.returncode == 0 else result.stderr
+      except ImportError:
+          import subprocess
+          command_str = " ".join(cmd_list)
+          proc = subprocess.run(command_str, shell=True, capture_output=True, text=True, timeout=60)
+          return proc.stdout if proc.returncode == 0 else proc.stderr
+      except Exception as e:
+          return f"[ERROR] {e}"
 
 def get_system_status_report():
     """Collects and formats a system status report."""

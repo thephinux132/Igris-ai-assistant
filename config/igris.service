@@ -1,0 +1,35 @@
+[Unit]
+Description=Igris AI Assistant
+Documentation=https://github.com/thephinux132/Igris-ai-assistant
+After=network.target
+
+[Service]
+Type=simple
+User=%i
+Group=%i
+WorkingDirectory=/opt/igris
+ExecStart=/opt/igris/venv/bin/python -m igris.daemon
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=on-failure
+RestartSec=5
+
+# Security hardening
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=read-only
+PrivateTmp=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+ReadWritePaths=/opt/igris/logs /opt/igris/data
+
+# Resource limits
+MemoryMax=512M
+CPUQuota=50%
+
+# Environment
+Environment=IGRIS_ENV=production
+Environment=IGRIS_LOG_LEVEL=INFO
+
+[Install]
+WantedBy=multi-user.target

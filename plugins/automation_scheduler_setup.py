@@ -7,25 +7,48 @@ A GUI utility to list, add, and delete scheduled tasks using Windows Task Schedu
 import tkinter as tk
 from tkinter import messagebox, simpledialog, ttk
 import subprocess
+import shlex
+try:
+    from core.secure_execution import safe_run_command
+    from core.input_validation import InputValidator
+    SECURE_MODULES = True
+except ImportError:
+    SECURE_MODULES = False
 
 
-def run_schtasks_command(cmd):
-    try:
+def run_schtasks_command(cmd: str) -> tuple[int, str, str]:
+    """Execute schtasks command securely."""
+    if SECURE_MODULES:
+        validator = InputValidator(strict_mode=True)
+        is_valid, error = validator.validate_user_input(cmd)
+        if not is_valid:
+            return 1, "", f"[BLOCKED] {error}"
+        try:
+            cmd_parts = shlex.split(cmd)
+            if cmd_parts and cmd_parts[0].lower() != "schtasks":
+                return 1, "", "[BLOCKED] Only schtasks commands allowed"
+            result = safe_run_command(cmd_parts, timeout=30)
+            return result.returncode, result.stdout, result.stderr
+        except Exception as e:
+            return 1, "", f"[ERROR] {e}"
+    else:
+        # Fallback
         proc = subprocess.run(cmd, capture_output=True, text=True, shell=True)
-        return proc.stdout.strip() if proc.returncode == 0 else proc.stderr.strip()
-    except Exception as e:
-        return f"[ERROR] {str(e)}"
+        return proc.returncode, proc.stdout, proc.stderr
 
 def list_tasks():
-    return run_schtasks_command("schtasks /Query /FO LIST /V")
+    returncode, stdout, stderr = run_schtasks_command("schtasks /Query /FO LIST /V")
+    return stdout if returncode == 0 else stderr
 
 def add_task(task_name, time, command):
-    return run_schtasks_command(
+    returncode, stdout, stderr = run_schtasks_command(
         f'schtasks /Create /SC DAILY /TN "{task_name}" /TR "{command}" /ST {time} /F'
     )
+    return stdout if returncode == 0 else stderr
 
 def delete_task(task_name):
-    return run_schtasks_command(f'schtasks /Delete /TN "{task_name}" /F')
+    returncode, stdout, stderr = run_schtasks_command(f'schtasks /Delete /TN "{task_name}" /F')
+    return stdout if returncode == 0 else stderr
 
 def run():
     root = tk.Toplevel()

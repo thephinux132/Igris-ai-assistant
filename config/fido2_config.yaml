@@ -1,0 +1,20 @@
+# FIDO2/Hardware Key Configuration
+
+relying_party:
+  id: "igris.local"
+  name: "Igris AI Assistant"
+
+authenticator:
+  # Require user verification (PIN/biometric on key)
+  user_verification: "preferred"  # required, preferred, discouraged
+
+  # Resident key (discoverable credential)
+  resident_key: "preferred"
+
+  # Attachment preference
+  attachment: "cross-platform"  # platform, cross-platform, null
+
+timeout: 60000  # milliseconds
+
+# Registered credentials stored here
+credentials_path: "config/.fido2_credentials"

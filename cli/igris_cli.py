@@ -61,7 +61,31 @@ except Exception:
         import hmac as _hmac, hashlib as _hashlib, getpass as _getpass, re as _re, time as _time
 
         def load_policy() -> dict:
-            # SHA-256("1234") by default; change this in a proper policy file later.
+            # UPDATED: Try to load from secure storage if available
+            try:
+                from core.secrets_manager import SecretsManager
+                secrets_mgr = SecretsManager()
+                pin_hash = secrets_mgr.get_pin_hash()
+                if pin_hash:
+                    return {"admin_pin_hash": pin_hash}
+            except Exception:
+                pass
+
+            # Fallback: Try to load from file
+            policy_paths = [
+                Path.home() / "OneDrive" / "Documents" / "ai_script_policy.json",
+                Path(__file__).parent.parent / "core" / "ai_script_policy.json",
+            ]
+            for policy_path in policy_paths:
+                if policy_path.exists():
+                    try:
+                        return _json.loads(policy_path.read_text(encoding='utf-8'))
+                    except Exception:
+                        pass
+
+            # WARNING: This hardcoded hash is for backward compatibility only
+            # Default PIN "1234" - CHANGE THIS IMMEDIATELY FOR PRODUCTION
+            print("[WARNING] Using default PIN - run migration or setup!")
             return {"admin_pin_hash": "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4"}
 
         def load_assistant_identity(path: os.PathLike | str) -> dict:
@@ -89,15 +113,32 @@ except Exception:
 
         def _authenticate_admin() -> bool:
             print("[SECURITY] This action requires admin approval.")
-            if input("Confirm fingerprint scan (type 'scan'): ").strip().lower() != "scan":
-                print("[SECURITY] Fingerprint verification failed."); return False
+
+            # UPDATED: Try to use new secure authentication if available
+            try:
+                from core.secure_auth import AuthenticationManager, RateLimitError, AuthenticationError
+                auth_mgr = AuthenticationManager()
+
+                if not auth_mgr.is_pin_configured():
+                    print("[SECURITY] Admin PIN not configured. Run setup first.")
+                    return False
+
+                return auth_mgr.authenticate_admin()
+
+            except (ImportError, RateLimitError, AuthenticationError) as e:
+                if isinstance(e, (RateLimitError, AuthenticationError)):
+                    print(f"[SECURITY] {e}")
+                    return False
+                # Fall through to legacy auth if modules not available
+                pass
+
+            # FALLBACK: Legacy PIN authentication (simulated fingerprint/voice removed)
+            print("[SECURITY] Using legacy authentication (fingerprint/voice auth removed)")
             pin = _getpass.getpass("Enter admin PIN: ")
             want = load_policy().get("admin_pin_hash", "")
             got  = _hashlib.sha256(pin.encode("utf-8")).hexdigest()
             if not (want and _ct(want, got)) or not _validate_pin(pin):
                 print("[SECURITY] PIN invalid."); return False
-            if input("Speak passphrase (type 'authorize'): ").strip().lower() != "authorize":
-                print("[SECURITY] Voice verification failed."); return False
             print("[SECURITY] Admin authentication successful."); return True
 
         def enforce_admin_then(fn, *, requires_admin: bool, auth_kwargs: Optional[dict]=None):
@@ -242,8 +283,42 @@ def main() -> None:
         print('Example:\n  python -m cli.igris_cli --identity .\\assistant_identity.json "open notepad"')
         sys.exit(1)
 
+    # Phase 4: Validate user input
+    try:
+        from core.input_validation import InputValidator
+        validator = InputValidator(strict_mode=True)
+        is_valid, error_msg = validator.validate_user_input(user_req)
+        if not is_valid:
+            print(f"[SECURITY] Input validation failed: {error_msg}")
+            print("[SECURITY] Your input contains potentially dangerous patterns.")
+            sys.exit(1)
+    except ImportError:
+        # Validation module not available - proceed with caution
+        import logging
+        logging.warning("Input validation module not available - proceeding without validation")
+
     # 1) Try offline intents first (fast path)
     intents = load_task_intents(CWD)
+
+    # Phase 4: Validate task intents at load time
+    try:
+        from core.input_validation import InputValidator
+        validator = InputValidator(strict_mode=False)  # Non-strict for intents (allow more patterns)
+
+        # Validate structure exists
+        if "tasks" in intents:
+            # Quick validation - check for obviously dangerous patterns
+            for i, task in enumerate(intents.get("tasks", [])):
+                action = task.get("action", "")
+                # Check for extremely dangerous patterns
+                dangerous_patterns = ["rm -rf", "del /f /s /q", "format c:", "dd if="]
+                for pattern in dangerous_patterns:
+                    if pattern in action.lower():
+                        import logging
+                        logging.warning(f"Task {i} contains dangerous pattern: {pattern}")
+    except ImportError:
+        pass  # Validation module not available
+
     lm = local_match_action(user_req, intents)
     if lm:
         print(f"[OFFLINE] {lm['reasoning']}: {lm['task_name']} → {lm['action']}")
@@ -257,6 +332,19 @@ def main() -> None:
     print("[INFO] No exact local match. Querying model...")
     system_prefix = args.system or f"{identity.get('role','Assistant')}. {identity.get('base_context','')}"
     obj = ask_ollama(prompt=user_req, model=model, system_prefix=system_prefix, force_json=True)
+
+    # Phase 4: Sanitize LLM output
+    if isinstance(obj, dict):
+        try:
+            from core.input_validation import InputValidator
+            validator = InputValidator(strict_mode=True)
+            obj = validator.sanitize_llm_output(obj)
+        except ImportError:
+            pass  # Validation module not available
+        except Exception as e:
+            print(f"[SECURITY] LLM output validation failed: {e}")
+            print("[SECURITY] LLM returned potentially unsafe command.")
+            sys.exit(1)
 
     # If the call clearly failed, try one more offline pass before giving up.
     if isinstance(obj, dict) and obj.get("status") == "error":

@@ -1,0 +1,50 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+ENV/
+.venv/
+
+# Build
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Test
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Logs and data (will be mounted)
+logs/
+data/
+
+# Secrets (never include)
+config/.api_keys
+config/.fido2_credentials
+config/settings.yaml
+*.enc
+*.key
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Documentation
+docs/*.pdf
+*.md
+!README.md

@@ -1,0 +1,64 @@
+# Voice Command Configuration
+
+wake_words:
+  - "igris"
+  - "hey igris"
+  - "okay igris"
+
+commands:
+  # System commands
+  - triggers: ["open notepad", "launch notepad", "start notepad"]
+    action: "open"
+    target: "notepad"
+
+  - triggers: ["open calculator", "launch calculator", "start calc"]
+    action: "open"
+    target: "calc"
+
+  - triggers: ["open browser", "launch chrome", "start firefox"]
+    action: "open"
+    target: "browser"
+
+  - triggers: ["lock computer", "lock screen", "lock pc"]
+    action: "system"
+    target: "lock"
+    requires_approval: false
+
+  - triggers: ["shutdown", "shut down computer", "power off"]
+    action: "system"
+    target: "shutdown"
+    requires_approval: true
+
+  - triggers: ["restart", "reboot", "restart computer"]
+    action: "system"
+    target: "restart"
+    requires_approval: true
+
+  # File operations
+  - triggers: ["show files", "list files", "show directory"]
+    action: "list"
+    target: "cwd"
+
+  - triggers: ["show downloads", "open downloads"]
+    action: "open"
+    target: "downloads"
+
+  # Status queries
+  - triggers: ["system status", "how's the system", "check status"]
+    action: "query"
+    target: "status"
+
+  - triggers: ["what time is it", "current time", "tell me the time"]
+    action: "query"
+    target: "time"
+
+  - triggers: ["battery status", "battery level", "how much battery"]
+    action: "query"
+    target: "battery"
+
+settings:
+  language: "en-US"
+  timeout: 5  # seconds to listen after wake word
+  energy_threshold: 300  # microphone sensitivity
+  pause_threshold: 0.8  # seconds of silence to end phrase
+  confirmation_required: true  # confirm before executing

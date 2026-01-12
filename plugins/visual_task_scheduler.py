@@ -1,13 +1,30 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox, simpledialog, ttk
 import subprocess
+import shlex
+try:
+    from core.secure_execution import safe_run_command
+    from core.input_validation import InputValidator
+    SECURE_MODULES = True
+except ImportError:
+    SECURE_MODULES = False
 
-def run_cmd(cmd):
-    try:
+def run_cmd(cmd: str) -> tuple[int, str, str]:
+    """Execute command securely."""
+    if SECURE_MODULES:
+        validator = InputValidator(strict_mode=True)
+        is_valid, error = validator.validate_user_input(cmd)
+        if not is_valid:
+            return 1, "", f"[BLOCKED] {error}"
+        try:
+            cmd_parts = shlex.split(cmd)
+            result = safe_run_command(cmd_parts, timeout=30)
+            return result.returncode, result.stdout, result.stderr
+        except Exception as e:
+            return 1, "", f"[ERROR] {e}"
+    else:
         result = subprocess.run(cmd, capture_output=True, text=True, shell=True)
-        return result.stdout.strip() if result.returncode == 0 else result.stderr.strip()
-    except Exception as e:
-        return f"[ERROR] {str(e)}"
+        return result.returncode, result.stdout, result.stderr
 
 def build_command(name, command, schedule, time, modifier=None, days=None):
     base = f'schtasks /Create /TN "{name}" /TR "{command}" /ST {time} /F'
@@ -90,7 +107,8 @@ def run():
 
         sch_cmd = build_command(name, cmd, freq, time_val, modifier, selected_days)
         if sch_cmd:
-            result = run_cmd(sch_cmd)
+            returncode, stdout, stderr = run_cmd(sch_cmd)
+            result = stdout if returncode == 0 else stderr
             messagebox.showinfo("Result", result)
         else:
             messagebox.showerror("Invalid", "Could not build scheduling command.")

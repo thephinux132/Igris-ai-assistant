@@ -1,0 +1,16 @@
+{
+  "keys": [
+    {
+      "key_id": "28dbe6e79debf0f0",
+      "key_hash": "36b7b185a89bf244874a23f2a24258b950ded126e53183fce699d137df2f265a",
+      "name": "admin",
+      "created": 1768179197.6046448,
+      "last_used": null,
+      "permissions": [
+        "read",
+        "execute",
+        "admin"
+      ]
+    }
+  ]
+}

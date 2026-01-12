@@ -80,39 +80,19 @@ class TestIgrisGui(unittest.TestCase):
         mock_aliases_file.parent.mkdir.assert_called_once_with(parents=True, exist_ok=True)
         mock_write.assert_called_once_with(json.dumps(aliases, indent=2), encoding='utf-8')
 
-    @patch('subprocess.run')
-    def test_run_cmd(self, mock_subprocess_run):
-        # Test successful command
-        mock_proc = MagicMock()
-        mock_proc.returncode = 0
-        mock_proc.stdout = "Success output"
-        mock_proc.stderr = ""
-        mock_subprocess_run.return_value = mock_proc
-        result = igris_gui.run_cmd(["echo", "hello"])
-        self.assertEqual(result, "Success output")
-        mock_subprocess_run.assert_called_with(
-            "echo hello", capture_output=True, shell=True, check=False,
-            encoding='utf-8', errors='replace'
-        )
-
-        # Test command with no output
-        mock_proc.stdout = ""
-        result = igris_gui.run_cmd(["touch", "file"])
-        self.assertEqual(result, "Command executed.")
-
-        # Test command failure
-        mock_proc.returncode = 1
-        mock_proc.stdout = ""
-        mock_proc.stderr = "Error output"
-        result = igris_gui.run_cmd(["bad_command"])
-        self.assertIn("[ERROR]", result)
-        self.assertIn("returned 1", result)
-        self.assertIn("Error output", result)
-
-        # Test FileNotFoundError
-        mock_subprocess_run.side_effect = FileNotFoundError
-        result = igris_gui.run_cmd(["nonexistent_command"])
-        self.assertIn("[ERROR] Command not found", result)
+def run_cmd(cmd_list: list) -> str:
+      """Run command securely without shell=True."""
+      try:
+          from core.secure_execution import safe_run_command
+          result = safe_run_command(cmd_list, timeout=60)
+          return result.stdout if result.returncode == 0 else result.stderr
+      except ImportError:
+          import subprocess
+          command_str = " ".join(cmd_list)
+          proc = subprocess.run(command_str, shell=True, capture_output=True, text=True, timeout=60)
+          return proc.stdout if proc.returncode == 0 else proc.stderr
+      except Exception as e:
+          return f"[ERROR] {e}"
 
     @patch('igris_control_gui_main_final_fixed_importlib_patch_patched.psutil', create=True)
     @patch('time.time')

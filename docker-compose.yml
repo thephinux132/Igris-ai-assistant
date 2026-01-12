@@ -1,0 +1,82 @@
+version: '3.8'
+
+services:
+  igris:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: igris:2.0.0
+    container_name: igris
+    restart: unless-stopped
+
+    # Port mapping
+    ports:
+      - "8420:8420"
+
+    # Volumes for persistent data
+    volumes:
+      - igris-logs:/app/logs
+      - igris-data:/app/data
+      - ./config/settings.yaml:/app/config/settings.yaml:ro
+
+    # Environment variables
+    environment:
+      - IGRIS_ENV=production
+      - IGRIS_LOG_LEVEL=INFO
+      - TZ=UTC
+
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 128M
+
+    # Health check
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8420/api/v1/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+    # Security options
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp
+
+  # Optional: Ollama for local LLM
+  ollama:
+    image: ollama/ollama:latest
+    container_name: igris-ollama
+    restart: unless-stopped
+    profiles:
+      - llm
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama-models:/root/.ollama
+    deploy:
+      resources:
+        limits:
+          cpus: '4.0'
+          memory: 8G
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+volumes:
+  igris-logs:
+  igris-data:
+  ollama-models:
+
+networks:
+  default:
+    name: igris-network

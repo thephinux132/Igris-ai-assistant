@@ -1,4 +1,3 @@
-
 """ 
 visualize_topology_map.py
 
@@ -7,18 +6,31 @@ Requires `nmap` and `matplotlib` installed.
 """
 
 import subprocess
+import re
 try:
     import matplotlib.pyplot as plt
 except ImportError:
     plt = None
-import re
+
+try:
+    from core.secure_execution import safe_run_command
+    SECURE_MODULES = True
+except ImportError:
+    SECURE_MODULES = False
 
 def run():
     if not plt:
         return "[ERROR] The 'matplotlib' library is not installed. Please run: pip install matplotlib"
     try:
-        result = subprocess.run(["nmap", "-sn", "192.168.1.0/24"], capture_output=True, text=True, timeout=30)
-        output = result.stdout
+        cmd_parts = ["nmap", "-sn", "192.168.1.0/24"]
+        
+        if SECURE_MODULES:
+            result = safe_run_command(cmd_parts, timeout=30)
+            output = result.stdout if result.returncode == 0 else ""
+        else:
+            result = subprocess.run(cmd_parts, capture_output=True, text=True, timeout=30)
+            output = result.stdout
+
         hosts = re.findall(r"Nmap scan report for (.+)", output)
 
         if not hosts:
